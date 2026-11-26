@@ -1,0 +1,57 @@
+{
+  "common": {
+    "demoData": "Data demo",
+    "switchLanguage": "Ganti bahasa",
+    "toggleTheme": "Ganti tema",
+    "profileDemo": "Profil (demo)",
+    "comingSoon": "Halaman ini akan dibangun pada tahap berikutnya."
+  },
+  "home": {
+    "title": "Platform kuesioner dan analisis riset",
+    "subtitle": "Kelola proyek penelitian, susun kuesioner, dan analisis data di satu tempat.",
+    "openDashboard": "Buka dashboard"
+  },
+  "nav": {
+    "label": "Navigasi utama",
+    "overview": "Ringkasan",
+    "projects": "Proyek",
+    "responses": "Respons",
+    "data": "Data",
+    "analysis": "Analisis",
+    "integrations": "Integrasi",
+    "settings": "Pengaturan"
+  },
+  "dashboard": {
+    "greeting": "Selamat datang",
+    "subtitle": "Ringkasan aktivitas penelitian Anda.",
+    "demoNotice": "Data demo, bukan data nyata",
+    "totalProjects": "Total proyek",
+    "totalRespondents": "Total responden",
+    "activeQuestionnaires": "Kuesioner aktif",
+    "recentProjects": "Proyek terbaru",
+    "recentActivities": "Aktivitas terbaru",
+    "goToProjects": "Lihat semua proyek"
+  },
+  "projects": {
+    "title": "Proyek penelitian",
+    "demoNotice": "Data demo",
+    "search": "Cari proyek",
+    "filterStatus": "Filter status",
+    "statusAll": "Semua status",
+    "empty": "Tidak ada proyek yang cocok.",
+    "questionnaire": "Kuesioner",
+    "respondents": "{count} responden",
+    "status": {
+      "draft": "Draf",
+      "active": "Aktif",
+      "completed": "Selesai",
+      "archived": "Diarsipkan"
+    },
+    "questionnaireStatus": {
+      "none": "Belum ada",
+      "draft": "Draf",
+      "published": "Dipublikasikan",
+      "closed": "Ditutup"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "common": {
+    "demoData": "Demo data",
+    "switchLanguage": "Switch language",
+    "toggleTheme": "Toggle theme",
+    "profileDemo": "Profile (demo)",
+    "comingSoon": "This page will be built in a later phase."
+  },
+  "home": {
+    "title": "Research questionnaire and analysis platform",
+    "subtitle": "Manage research projects, build questionnaires, and analyze data in one place.",
+    "openDashboard": "Open dashboard"
+  },
+  "nav": {
+    "label": "Main navigation",
+    "overview": "Overview",
+    "projects": "Projects",
+    "responses": "Responses",
+    "data": "Data",
+    "analysis": "Analysis",
+    "integrations": "Integrations",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "greeting": "Welcome",
+    "subtitle": "A summary of your research activity.",
+    "demoNotice": "Demo data, not real records",
+    "totalProjects": "Total projects",
+    "totalRespondents": "Total respondents",
+    "activeQuestionnaires": "Active questionnaires",
+    "recentProjects": "Recent projects",
+    "recentActivities": "Recent activities",
+    "goToProjects": "View all projects"
+  },
+  "projects": {
+    "title": "Research projects",
+    "demoNotice": "Demo data",
+    "search": "Search projects",
+    "filterStatus": "Filter by status",
+    "statusAll": "All statuses",
+    "empty": "No matching projects.",
+    "questionnaire": "Questionnaire",
+    "respondents": "{count} respondents",
+    "status": {
+      "draft": "Draft",
+      "active": "Active",
+      "completed": "Completed",
+      "archived": "Archived"
+    },
+    "questionnaireStatus": {
+      "none": "None",
+      "draft": "Draft",
+      "published": "Published",
+      "closed": "Closed"
+    }
+  }
+}
