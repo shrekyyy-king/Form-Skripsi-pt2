@@ -29,3 +29,24 @@ export interface LikertConfig {
   direction: "ascending" | "descending";
   reverseScored: boolean;
 }
+export interface Question {
+  id: string;
+  type: QuestionType;
+  text: string; // konten peneliti, tidak diterjemahkan otomatis
+  description?: string;
+  required: boolean;
+  likert?: LikertConfig; // untuk type "likert"
+  choices?: string[]; // untuk multipleChoice, checkbox, dropdown
+}
+
+export interface Questionnaire {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  researcher: string;
+  estimatedMinutes: number;
+  consentText: string[];
+  contactEmail?: string;
+  questions: Question[];
+}
