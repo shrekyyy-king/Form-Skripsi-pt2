@@ -42,6 +42,7 @@ export interface Question {
 
 export interface Questionnaire {
   id: string;
+  projectId?: string;
   slug: string;
   title: string;
   description: string;

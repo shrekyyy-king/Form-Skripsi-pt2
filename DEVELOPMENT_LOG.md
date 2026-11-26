@@ -14,3 +14,6 @@
 ## 2026-11-26 — Bagian 5: alur responden
 - Menambah types Question/Questionnaire, repository + fixture kuesioner demo, fitur survey (provider, question-input, question-flow, consent, complete), 5 route survey, pesan id/en.
 - Rute dinamis memakai generateStaticParams (ekspor statis).
+
+## 2026-11-26 — Bagian 6: builder kuesioner
+- Menambah features/builder (utils murni, question-editor, builder-editor), route builder/[id] (generateStaticParams), pesan id/en, `getByProjectId` di repository.

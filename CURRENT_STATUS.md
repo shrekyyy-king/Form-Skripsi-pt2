@@ -2,12 +2,11 @@
 Terakhir diperbarui: 2026-11-26
 
 ## Terbukti jalan (build + deploy GitHub Pages, diuji pengguna)
-- Fondasi, tema, i18n, dashboard, daftar proyek.
+- Fondasi, tema, i18n, dashboard, daftar proyek, alur responden (Bagian 5).
 
-## Baru (Bagian 5, BELUM diuji): alur responden
-- `/survey/demo-servqual`: pengantar, persetujuan, soal satu per layar (7 tipe soal), progres, validasi wajib/angka, selesai.
-- State sementara di `SurveyProvider` (hilang saat refresh, lalu kembali ke awal). Jawaban TIDAK disimpan (mode demo).
-- Kartu proyek terpublikasi punya tautan "Buka kuesioner".
+## Baru (Bagian 6, BELUM diuji): builder kuesioner
+- `/dashboard/builder/[id]`: judul/deskripsi, daftar soal (tambah, hapus, naik/turun), editor soal, 7 tipe soal, wajib/opsional, Likert konfigurabel (2-10 titik, label, nilai, arah, reverse, deskripsi), mode pratinjau, saklar publikasi.
+- Perubahan hanya di memori halaman (mode demo, tidak tersimpan). Tautan "Buka builder" ada di kartu proyek.
 
 ## Belum
-Dialog pembuatan proyek, detail proyek, builder kuesioner, pemutar musik, /login, dropdown profil, penyimpanan jawaban (butuh backend).
+Manajemen seksi, dialog pembuatan proyek, detail proyek, pemutar musik, /login, dropdown profil, penyimpanan data (butuh backend), builder -> responden (perlu penyimpanan).

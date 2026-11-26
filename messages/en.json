@@ -53,7 +53,8 @@
       "published": "Published",
       "closed": "Closed"
     },
-    "openSurvey": "Open questionnaire"
+    "openSurvey": "Open questionnaire",
+    "openBuilder": "Open builder"
   },
   "survey": {
     "start": "Start",
@@ -78,5 +79,48 @@
     "completeText": "You have completed the questionnaire.",
     "demoNote": "Demo mode: answers are not saved to any server.",
     "contact": "Questions? Contact the researcher:"
+  },
+  "builder": {
+    "title": "Questionnaire builder",
+    "demoNotice": "Demo mode: changes are not saved",
+    "questionnaireTitle": "Questionnaire title",
+    "description": "Description",
+    "published": "Published",
+    "publishNote": "This setting only applies on this page (demo).",
+    "mode": "View mode",
+    "tabEdit": "Edit",
+    "tabPreview": "Preview",
+    "previewNote": "Preview: answers are not saved.",
+    "questions": "Questions",
+    "addQuestion": "Add",
+    "noQuestions": "No questions yet.",
+    "emptyText": "(empty question)",
+    "selectQuestion": "Select a question from the list to edit.",
+    "questionText": "Question text",
+    "questionDescription": "Question description (optional)",
+    "type": "Question type",
+    "required": "Required",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "remove": "Delete question",
+    "likertSettings": "Likert scale settings",
+    "points": "Number of scale points",
+    "direction": "Scale direction",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "reverseScored": "Reverse scored",
+    "optionValue": "Value",
+    "optionLabel": "Label",
+    "optionDescription": "Description (optional)",
+    "choices": "Choices (one per line)",
+    "types": {
+      "likert": "Likert scale",
+      "multipleChoice": "Multiple choice",
+      "checkbox": "Checkbox",
+      "shortAnswer": "Short answer",
+      "longAnswer": "Long answer",
+      "numeric": "Numeric",
+      "dropdown": "Dropdown"
+    }
   }
 }

@@ -11,5 +11,6 @@ export const mockActivityRepository: ActivityRepository = {
 };
 export const mockQuestionnaireRepository: QuestionnaireRepository = {
   async getBySlug(slug) { return demoQuestionnaires.find((q) => q.slug === slug) ?? null; },
+  async getByProjectId(projectId) { return demoQuestionnaires.find((q) => q.projectId === projectId) ?? null; },
   async listSlugs() { return demoQuestionnaires.map((q) => q.slug); },
 };

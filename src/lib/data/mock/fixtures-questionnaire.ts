@@ -17,6 +17,7 @@ const agree5: LikertConfig = {
 export const demoQuestionnaires: Questionnaire[] = [
   {
     id: "q1",
+    projectId: "p1",
     slug: "demo-servqual",
     title: "Kualitas Layanan Akademik (Demo)",
     description: "Kuesioner demo untuk mencoba alur responden. Isinya contoh, bukan instrumen penelitian sungguhan.",

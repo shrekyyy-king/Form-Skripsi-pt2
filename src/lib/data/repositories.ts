@@ -10,5 +10,6 @@ export interface ActivityRepository {
 }
 export interface QuestionnaireRepository {
   getBySlug(slug: string): Promise<Questionnaire | null>;
+  getByProjectId(projectId: string): Promise<Questionnaire | null>;
   listSlugs(): Promise<string[]>;
 }

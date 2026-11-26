@@ -53,7 +53,8 @@
       "published": "Dipublikasikan",
       "closed": "Ditutup"
     },
-    "openSurvey": "Buka kuesioner"
+    "openSurvey": "Buka kuesioner",
+    "openBuilder": "Buka builder"
   },
   "survey": {
     "start": "Mulai",
@@ -78,5 +79,48 @@
     "completeText": "Anda telah menyelesaikan kuesioner.",
     "demoNote": "Mode demo: jawaban tidak disimpan ke server.",
     "contact": "Ada pertanyaan? Hubungi peneliti:"
+  },
+  "builder": {
+    "title": "Builder kuesioner",
+    "demoNotice": "Mode demo: perubahan tidak disimpan",
+    "questionnaireTitle": "Judul kuesioner",
+    "description": "Deskripsi",
+    "published": "Dipublikasikan",
+    "publishNote": "Pengaturan ini hanya berlaku di halaman ini (demo).",
+    "mode": "Mode tampilan",
+    "tabEdit": "Edit",
+    "tabPreview": "Pratinjau",
+    "previewNote": "Pratinjau: jawaban tidak disimpan.",
+    "questions": "Soal",
+    "addQuestion": "Tambah",
+    "noQuestions": "Belum ada soal.",
+    "emptyText": "(soal kosong)",
+    "selectQuestion": "Pilih soal di daftar untuk diedit.",
+    "questionText": "Teks soal",
+    "questionDescription": "Deskripsi soal (opsional)",
+    "type": "Tipe soal",
+    "required": "Wajib dijawab",
+    "moveUp": "Naikkan",
+    "moveDown": "Turunkan",
+    "remove": "Hapus soal",
+    "likertSettings": "Pengaturan skala Likert",
+    "points": "Jumlah titik skala",
+    "direction": "Arah skala",
+    "ascending": "Menaik",
+    "descending": "Menurun",
+    "reverseScored": "Skor dibalik (reverse)",
+    "optionValue": "Nilai",
+    "optionLabel": "Label",
+    "optionDescription": "Deskripsi (opsional)",
+    "choices": "Pilihan (satu per baris)",
+    "types": {
+      "likert": "Skala Likert",
+      "multipleChoice": "Pilihan ganda",
+      "checkbox": "Kotak centang",
+      "shortAnswer": "Jawaban singkat",
+      "longAnswer": "Jawaban panjang",
+      "numeric": "Angka",
+      "dropdown": "Dropdown"
+    }
   }
 }

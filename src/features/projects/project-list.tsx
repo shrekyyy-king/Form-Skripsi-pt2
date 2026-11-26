@@ -52,6 +52,7 @@ export function ProjectList({ projects }: { projects: Project[] }) {
                 <CardContent className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
                   <span>{t("questionnaire")}: {t(`questionnaireStatus.${p.questionnaireStatus}`)}</span>
                   <span>{t("respondents", { count: p.respondentCount })}</span>
+                  <Link href={routes.dashboard.builder(p.id)} className="font-medium text-primary hover:underline">{t("openBuilder")}</Link>
                   {p.questionnaireStatus === "published" && (
                     <Link href={routes.survey.intro(p.slug)} className="font-medium text-primary hover:underline">{t("openSurvey")}</Link>
                   )}
