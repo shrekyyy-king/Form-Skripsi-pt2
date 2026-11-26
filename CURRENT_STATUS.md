@@ -1,19 +1,13 @@
 # Status Saat Ini
-Terakhir diperbarui: 2026-11-26 (BELUM diuji: tanpa akses npm; CI GitHub akan menjadi uji pertama)
+Terakhir diperbarui: 2026-11-26
 
-## Selesai
-- Bagian 1: konfigurasi, tema, i18n, dokumentasi.
-- Bagian 2: types, repository + fixture mock (berlabel demo), utilitas skor Likert (`src/lib/scoring.ts`).
-- Bagian 3: ui (button, card, badge, input), LanguageSwitcher, ThemeSwitcher, BrandMark.
-- Bagian 4: layout dashboard (sidebar, topbar, nav mobile), ringkasan dashboard, daftar proyek (cari + filter), halaman placeholder, landing.
-- CI GitHub Actions + Codespaces.
+## Terbukti jalan (build + deploy GitHub Pages, diuji pengguna)
+- Fondasi, tema, i18n, dashboard, daftar proyek.
+
+## Baru (Bagian 5, BELUM diuji): alur responden
+- `/survey/demo-servqual`: pengantar, persetujuan, soal satu per layar (7 tipe soal), progres, validasi wajib/angka, selesai.
+- State sementara di `SurveyProvider` (hilang saat refresh, lalu kembali ke awal). Jawaban TIDAK disimpan (mode demo).
+- Kartu proyek terpublikasi punya tautan "Buka kuesioner".
 
 ## Belum
-Dialog pembuatan proyek, halaman detail proyek, builder, alur responden, musik, /login, dialog/dropdown profil.
-
-## Pembaruan: mode GitHub Pages
-- Ekspor statis, middleware dihapus, URL /id dan /en, workflow `pages.yml`. Belum diuji; CI GitHub adalah uji pertama.
-- Tautan proyek di dashboard dinonaktifkan sampai halaman detail proyek dibuat.
-
-## Versi final untuk upload ulang
-- Paket bersih tanpa dotfile; pengalihan root via public/index.html. Build GitHub Pages belum terbukti: tunggu hasil Actions.
+Dialog pembuatan proyek, detail proyek, builder kuesioner, pemutar musik, /login, dropdown profil, penyimpanan jawaban (butuh backend).

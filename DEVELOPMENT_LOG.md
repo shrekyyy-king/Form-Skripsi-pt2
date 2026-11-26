@@ -10,3 +10,7 @@
 
 ## 2026-11-26 — Mode GitHub Pages
 - Konversi ke ekspor statis + workflow deploy. Hapus `src/middleware.ts` (manual di repo).
+
+## 2026-11-26 — Bagian 5: alur responden
+- Menambah types Question/Questionnaire, repository + fixture kuesioner demo, fitur survey (provider, question-input, question-flow, consent, complete), 5 route survey, pesan id/en.
+- Rute dinamis memakai generateStaticParams (ekspor statis).
