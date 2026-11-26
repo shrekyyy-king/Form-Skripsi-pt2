@@ -52,6 +52,31 @@
       "draft": "Draf",
       "published": "Dipublikasikan",
       "closed": "Ditutup"
-    }
+    },
+    "openSurvey": "Buka kuesioner"
+  },
+  "survey": {
+    "start": "Mulai",
+    "estimated": "Perkiraan waktu: {count} menit",
+    "researcherLabel": "Peneliti",
+    "consentTitle": "Persetujuan partisipasi",
+    "voluntary": "Partisipasi bersifat sukarela. Anda boleh berhenti kapan saja tanpa konsekuensi.",
+    "privacy": "Jawaban Anda dijaga kerahasiaannya dan hanya dipakai untuk keperluan penelitian ini.",
+    "agreeLabel": "Saya telah membaca informasi di atas dan bersedia berpartisipasi.",
+    "agree": "Setuju dan lanjutkan",
+    "decline": "Tidak setuju",
+    "declined": "Terima kasih. Anda memilih tidak berpartisipasi dan tidak ada data yang dikumpulkan.",
+    "backToStart": "Kembali ke awal",
+    "progress": "Pertanyaan {current} dari {total}",
+    "required": "Pertanyaan ini wajib dijawab.",
+    "invalidNumber": "Masukkan angka yang valid.",
+    "previous": "Sebelumnya",
+    "next": "Berikutnya",
+    "submit": "Kirim",
+    "select": "Pilih salah satu",
+    "completeTitle": "Terima kasih atas partisipasi Anda",
+    "completeText": "Anda telah menyelesaikan kuesioner.",
+    "demoNote": "Mode demo: jawaban tidak disimpan ke server.",
+    "contact": "Ada pertanyaan? Hubungi peneliti:"
   }
 }

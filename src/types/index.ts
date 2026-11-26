@@ -29,6 +29,7 @@ export interface LikertConfig {
   direction: "ascending" | "descending";
   reverseScored: boolean;
 }
+
 export interface Question {
   id: string;
   type: QuestionType;

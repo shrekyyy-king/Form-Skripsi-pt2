@@ -1,4 +1,4 @@
-import type { Activity, Project } from "@/types";
+import type { Activity, Project, Questionnaire } from "@/types";
 
 /** Kontrak data. Implementasi Supabase kelak cukup memenuhi antarmuka ini. */
 export interface ProjectRepository {
@@ -7,4 +7,8 @@ export interface ProjectRepository {
 }
 export interface ActivityRepository {
   listRecent(limit: number): Promise<Activity[]>;
+}
+export interface QuestionnaireRepository {
+  getBySlug(slug: string): Promise<Questionnaire | null>;
+  listSlugs(): Promise<string[]>;
 }

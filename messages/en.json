@@ -52,6 +52,31 @@
       "draft": "Draft",
       "published": "Published",
       "closed": "Closed"
-    }
+    },
+    "openSurvey": "Open questionnaire"
+  },
+  "survey": {
+    "start": "Start",
+    "estimated": "Estimated time: {count} minutes",
+    "researcherLabel": "Researcher",
+    "consentTitle": "Informed consent",
+    "voluntary": "Participation is voluntary. You may stop at any time without any consequence.",
+    "privacy": "Your answers are kept confidential and used only for this research.",
+    "agreeLabel": "I have read the information above and agree to participate.",
+    "agree": "Agree and continue",
+    "decline": "Decline",
+    "declined": "Thank you. You chose not to participate and no data was collected.",
+    "backToStart": "Back to start",
+    "progress": "Question {current} of {total}",
+    "required": "This question is required.",
+    "invalidNumber": "Enter a valid number.",
+    "previous": "Previous",
+    "next": "Next",
+    "submit": "Submit",
+    "select": "Select one",
+    "completeTitle": "Thank you for participating",
+    "completeText": "You have completed the questionnaire.",
+    "demoNote": "Demo mode: answers are not saved to any server.",
+    "contact": "Questions? Contact the researcher:"
   }
 }

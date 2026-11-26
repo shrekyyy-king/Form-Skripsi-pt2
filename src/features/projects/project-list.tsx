@@ -6,6 +6,8 @@ import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { routes } from "@/config/routes";
+import { Link } from "@/i18n/navigation";
 import type { Project, ProjectStatus } from "@/types";
 
 export function ProjectList({ projects }: { projects: Project[] }) {
@@ -50,6 +52,9 @@ export function ProjectList({ projects }: { projects: Project[] }) {
                 <CardContent className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
                   <span>{t("questionnaire")}: {t(`questionnaireStatus.${p.questionnaireStatus}`)}</span>
                   <span>{t("respondents", { count: p.respondentCount })}</span>
+                  {p.questionnaireStatus === "published" && (
+                    <Link href={routes.survey.intro(p.slug)} className="font-medium text-primary hover:underline">{t("openSurvey")}</Link>
+                  )}
                   <span>{format.dateTime(new Date(p.createdAt), { dateStyle: "medium" })}</span>
                 </CardContent>
               </Card>
