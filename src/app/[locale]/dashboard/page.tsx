@@ -44,10 +44,10 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
           <CardHeader><h2 className="font-medium">{t("recentProjects")}</h2></CardHeader>
           <CardContent className="space-y-2">
             {projects.slice(0, 3).map((p) => (
-              <div key={p.id} className="rounded-md p-2">
+              <Link key={p.id} href={routes.dashboard.project(p.id)} className="block rounded-md p-2 hover:bg-muted">
                 <p className="text-sm font-medium">{p.title}</p>
                 <p className="text-xs text-muted-foreground">{format.dateTime(new Date(p.createdAt), { dateStyle: "medium" })}</p>
-              </div>
+              </Link>
             ))}
           </CardContent>
         </Card>

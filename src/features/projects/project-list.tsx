@@ -9,8 +9,11 @@ import { Input } from "@/components/ui/input";
 import { routes } from "@/config/routes";
 import { Link } from "@/i18n/navigation";
 import type { Project, ProjectStatus } from "@/types";
+import { CreateProjectDialog } from "./create-project-dialog";
+import type { LocalProject } from "./project-schema";
 
 export function ProjectList({ projects }: { projects: Project[] }) {
+  const [items, setItems] = useState<LocalProject[]>(projects);
   const t = useTranslations("projects");
   const format = useFormatter();
   const [query, setQuery] = useState("");
@@ -18,11 +21,12 @@ export function ProjectList({ projects }: { projects: Project[] }) {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return projects.filter((p) => (status === "all" || p.status === status) && (q === "" || p.title.toLowerCase().includes(q)));
-  }, [projects, query, status]);
+    return items.filter((p) => (status === "all" || p.status === status) && (q === "" || p.title.toLowerCase().includes(q)));
+  }, [items, query, status]);
 
   return (
     <div className="space-y-4">
+      <div className="flex justify-end"><CreateProjectDialog onCreate={(p) => setItems((list) => [p, ...list])} /></div>
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" aria-hidden />
@@ -44,7 +48,7 @@ export function ProjectList({ projects }: { projects: Project[] }) {
               <Card className="h-full">
                 <CardHeader>
                   <div className="flex items-start justify-between gap-2">
-                    <h2 className="font-medium">{p.title}</h2>
+                    <h2 className="font-medium">{p.local ? p.title : <Link href={routes.dashboard.project(p.id)} className="hover:underline">{p.title}</Link>}</h2>
                     <Badge>{t(`status.${p.status}`)}</Badge>
                   </div>
                   <p className="text-sm text-muted-foreground">{p.description}</p>
@@ -52,7 +56,7 @@ export function ProjectList({ projects }: { projects: Project[] }) {
                 <CardContent className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
                   <span>{t("questionnaire")}: {t(`questionnaireStatus.${p.questionnaireStatus}`)}</span>
                   <span>{t("respondents", { count: p.respondentCount })}</span>
-                  <Link href={routes.dashboard.builder(p.id)} className="font-medium text-primary hover:underline">{t("openBuilder")}</Link>
+                  {p.local ? <span>{t("local")}</span> : <Link href={routes.dashboard.builder(p.id)} className="font-medium text-primary hover:underline">{t("openBuilder")}</Link>}
                   {p.questionnaireStatus === "published" && (
                     <Link href={routes.survey.intro(p.slug)} className="font-medium text-primary hover:underline">{t("openSurvey")}</Link>
                   )}

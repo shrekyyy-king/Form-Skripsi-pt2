@@ -10,3 +10,7 @@ Terakhir diperbarui: 2026-11-26
 
 ## Belum
 Manajemen seksi, dialog pembuatan proyek, detail proyek, pemutar musik, /login, dropdown profil, penyimpanan data (butuh backend), builder -> responden (perlu penyimpanan).
+
+## Bagian 7 (BELUM diuji): proyek
+- Dialog buat proyek (lokal, tidak tersimpan), `/dashboard/projects/new`, `/dashboard/projects/[id]` (detail). Proyek lokal tidak punya halaman detail/builder (ekspor statis).
+- Kerja paralel: lihat docs/PARALLEL_WORK.md (AI-2 seksi, AI-3 musik/login/profil, AI-4 QA).

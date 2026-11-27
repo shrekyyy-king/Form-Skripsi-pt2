@@ -54,7 +54,28 @@
       "closed": "Closed"
     },
     "openSurvey": "Open questionnaire",
-    "openBuilder": "Open builder"
+    "openBuilder": "Open builder",
+    "local": "Local (not saved)"
+  },
+  "projectDetail": {
+    "newProject": "New project",
+    "formTitle": "Create research project",
+    "fieldTitle": "Project title",
+    "fieldDescription": "Research description",
+    "fieldStatus": "Status",
+    "create": "Create project",
+    "cancel": "Cancel",
+    "errors": {
+      "titleMin": "Title must be at least 3 characters.",
+      "descriptionMax": "Description must be at most 500 characters."
+    },
+    "createdTitle": "Project \"{title}\" created.",
+    "createdNote": "Demo mode: the project only exists on this page and is not saved.",
+    "backToProjects": "Back to projects",
+    "detailQuestionnaire": "Questionnaire",
+    "detailQuestions": "{count} questions",
+    "detailCreated": "Created",
+    "descriptionEmpty": "No description yet."
   },
   "survey": {
     "start": "Start",

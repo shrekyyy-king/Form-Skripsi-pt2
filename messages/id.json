@@ -54,7 +54,28 @@
       "closed": "Ditutup"
     },
     "openSurvey": "Buka kuesioner",
-    "openBuilder": "Buka builder"
+    "openBuilder": "Buka builder",
+    "local": "Lokal (tidak tersimpan)"
+  },
+  "projectDetail": {
+    "newProject": "Proyek baru",
+    "formTitle": "Buat proyek penelitian",
+    "fieldTitle": "Judul proyek",
+    "fieldDescription": "Deskripsi penelitian",
+    "fieldStatus": "Status",
+    "create": "Buat proyek",
+    "cancel": "Batal",
+    "errors": {
+      "titleMin": "Judul minimal 3 karakter.",
+      "descriptionMax": "Deskripsi maksimal 500 karakter."
+    },
+    "createdTitle": "Proyek \"{title}\" dibuat.",
+    "createdNote": "Mode demo: proyek hanya ada di halaman ini dan tidak disimpan.",
+    "backToProjects": "Kembali ke daftar proyek",
+    "detailQuestionnaire": "Kuesioner",
+    "detailQuestions": "{count} soal",
+    "detailCreated": "Dibuat",
+    "descriptionEmpty": "Belum ada deskripsi."
   },
   "survey": {
     "start": "Mulai",

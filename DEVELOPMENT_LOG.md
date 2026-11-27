@@ -17,3 +17,8 @@
 
 ## 2026-11-26 — Bagian 6: builder kuesioner
 - Menambah features/builder (utils murni, question-editor, builder-editor), route builder/[id] (generateStaticParams), pesan id/en, `getByProjectId` di repository.
+
+## 2026-11-26 — Persiapan kerja paralel + Bagian 7 (proyek)
+- Namespace baru `projectDetail` dan kunci `projects.local` ditambahkan ke messages/id.json dan en.json.
+- Dialog pembuatan proyek (RHF + zod, elemen dialog), `/dashboard/projects/new`, `/dashboard/projects/[id]`, tautan dashboard aktif lagi.
+- Dokumen koordinasi: docs/PARALLEL_WORK.md.
