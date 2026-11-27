@@ -1,6 +1,5 @@
 # Tugas Berikutnya (urut)
-1. Verifikasi Bagian 6 di GitHub Pages; perbaiki galat bila ada.
-2. Manajemen seksi di builder (model `Section`, navigasi per seksi di responden).
-3. Dialog pembuatan proyek + halaman `/dashboard/projects/[id]`.
-4. Pemutar musik opsional (tanpa autoplay) dan `/login` (UI saja).
-5. README final, daftar fitur selesai/belum.
+1. Unggah paket gabungan, pastikan build GitHub hijau, perbaiki galat bila ada.
+2. Uji manual semua halaman (id/en, terang/gelap, mobile); catat temuan.
+3. Audit mutu + README final + dokumentasi akhir (Claude-4).
+4. Rencanakan Tahap 2: Supabase, autentikasi, penyimpanan respons, versi kuesioner, ekspor, Google Sheets, mesin R.

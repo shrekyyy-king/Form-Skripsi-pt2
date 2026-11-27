@@ -1,4 +1,5 @@
 import type { Activity, Project, Questionnaire } from "@/types";
+import type { RespondentResponse } from "@/types/response";
 
 /** Kontrak data. Implementasi Supabase kelak cukup memenuhi antarmuka ini. */
 export interface ProjectRepository {
@@ -12,4 +13,7 @@ export interface QuestionnaireRepository {
   getBySlug(slug: string): Promise<Questionnaire | null>;
   getByProjectId(projectId: string): Promise<Questionnaire | null>;
   listSlugs(): Promise<string[]>;
+}
+export interface ResponseRepository {
+  listByQuestionnaire(slug: string): Promise<RespondentResponse[]>;
 }

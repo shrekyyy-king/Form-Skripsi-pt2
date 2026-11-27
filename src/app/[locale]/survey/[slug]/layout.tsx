@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { ThemeSwitcher } from "@/components/layout/theme-switcher";
+import { MusicPlayer } from "@/features/music/music-player";
 import { SurveyProvider } from "@/features/survey/survey-provider";
 import { questionnaireRepository } from "@/lib/data";
 
@@ -30,6 +31,7 @@ export default async function SurveyLayout({
           <div className="flex items-center gap-1">
             <LanguageSwitcher />
             <ThemeSwitcher />
+            <MusicPlayer />
           </div>
         </header>
         <main className="mx-auto w-full max-w-2xl p-4 md:p-8">{children}</main>

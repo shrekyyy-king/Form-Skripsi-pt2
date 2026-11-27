@@ -99,7 +99,10 @@
     "completeTitle": "Terima kasih atas partisipasi Anda",
     "completeText": "Anda telah menyelesaikan kuesioner.",
     "demoNote": "Mode demo: jawaban tidak disimpan ke server.",
-    "contact": "Ada pertanyaan? Hubungi peneliti:"
+    "contact": "Ada pertanyaan? Hubungi peneliti:",
+    "sectionProgress": "Seksi {current} dari {total}",
+    "sectionFallbackTitle": "Seksi {number}",
+    "pageErrors": "{count} pertanyaan di seksi ini perlu dilengkapi."
   },
   "builder": {
     "title": "Builder kuesioner",
@@ -142,6 +145,127 @@
       "longAnswer": "Jawaban panjang",
       "numeric": "Angka",
       "dropdown": "Dropdown"
+    },
+    "defaultSectionTitle": "Seksi {number}",
+    "addSection": "Tambah seksi",
+    "removeSectionHint": "Menghapus seksi memindahkan soalnya ke \"Tanpa seksi\".",
+    "unsectioned": "Tanpa seksi",
+    "sectionName": "Nama seksi",
+    "sectionDescription": "Deskripsi seksi (opsional)",
+    "moveSectionUp": "Naikkan seksi",
+    "moveSectionDown": "Turunkan seksi",
+    "removeSection": "Hapus seksi",
+    "emptySection": "Belum ada soal di seksi ini.",
+    "addToSection": "Seksi tujuan soal baru",
+    "addToUnsectioned": "Tambahkan ke: Tanpa seksi",
+    "addToNamed": "Tambahkan ke: {name}",
+    "questionSection": "Seksi soal",
+    "navigationMode": "Mode navigasi responden",
+    "navPerQuestion": "Satu soal per layar",
+    "navPerSection": "Satu seksi per layar",
+    "navNote": "Mode per seksi menampilkan semua soal dalam satu seksi sekaligus; validasi wajib dan progres dihitung per seksi.",
+    "navNeedsSections": "Belum ada seksi, jadi responden tetap melihat satu soal per layar. Tambahkan seksi agar mode ini berlaku.",
+    "previewView": "Tampilan pratinjau",
+    "previewPaged": "Per layar",
+    "previewAll": "Semua soal"
+  },
+  "responses": {
+    "title": "Respons",
+    "demoNotice": "Data demo, bukan data responden nyata",
+    "count": "{count} responden",
+    "empty": "Belum ada respons."
+  },
+  "data": {
+    "title": "Data",
+    "demoNotice": "Data demo, bukan data responden nyata",
+    "description": "Dataset siap analisis. Jawaban Likert sudah memakai reverse scoring bila diaktifkan pada soal.",
+    "exportCsv": "Ekspor CSV",
+    "exportExcel": "Ekspor Excel",
+    "exportStats": "Ekspor SPSS/R",
+    "soon": "segera",
+    "empty": "Belum ada data."
+  },
+  "analysis": {
+    "title": "Analisis",
+    "demoNotice": "Data demo, bukan hasil penelitian",
+    "reliability": "Reliabilitas (Cronbach's alpha)",
+    "alphaValue": "α = {value}",
+    "alphaNote": "Dihitung dari butir Likert setelah reverse scoring, hanya responden yang menjawab semua butir.",
+    "itemStats": "Statistik butir",
+    "item": "Butir",
+    "n": "N",
+    "mean": "Rata-rata",
+    "sd": "Simpangan baku",
+    "chartTitle": "Rata-rata skor per butir",
+    "notEnough": "Data belum cukup untuk dianalisis."
+  },
+  "integrations": {
+    "title": "Integrasi",
+    "description": "Modul ini akan tersedia pada tahap berikutnya.",
+    "notActive": "Belum aktif",
+    "connect": "Hubungkan",
+    "googleSheets": "Google Sheets",
+    "googleSheetsDesc": "Sinkronkan respons ke spreadsheet.",
+    "supabase": "Supabase",
+    "supabaseDesc": "Basis data dan autentikasi.",
+    "rEngine": "Mesin statistik R",
+    "rEngineDesc": "Analisis otomatis di server."
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "appearance": "Tampilan",
+    "language": "Bahasa",
+    "theme": "Tema",
+    "product": "Produk",
+    "productName": "Nama produk",
+    "brandNote": "Nama dan identitas produk diubah di src/config/brand.ts."
+  },
+  "music": {
+    "toggle": "Musik latar",
+    "panelTitle": "Musik latar (opsional)",
+    "description": "Nada ambient sintetis orisinal. Tidak pernah diputar otomatis.",
+    "play": "Putar",
+    "pause": "Jeda",
+    "mute": "Bisukan",
+    "volume": "Volume",
+    "track": "Pilih lagu",
+    "tracks": {
+      "calm": "Tenang",
+      "drift": "Melayang",
+      "light": "Cerah"
+    },
+    "trackNote": "Pilihan lagu masih placeholder: tiga preset nada sintetis.",
+    "statusIdle": "Musik mati. Tekan Putar bila ingin mendengarkan.",
+    "statusPlaying": "Sedang diputar.",
+    "errors": {
+      "blocked": "Browser menolak memutar audio. Coba tekan Putar sekali lagi.",
+      "unsupported": "Browser ini tidak mendukung pemutaran audio."
     }
+  },
+  "login": {
+    "stageBadge": "Tahap 1: login belum aktif",
+    "title": "Masuk",
+    "description": "Masuk untuk mengelola proyek penelitian Anda.",
+    "email": "Email",
+    "password": "Kata sandi",
+    "togglePassword": "Tampilkan atau sembunyikan kata sandi",
+    "submit": "Masuk",
+    "inviteOnly": "Tidak ada pendaftaran publik. Akses diberikan lewat undangan.",
+    "backHome": "Kembali ke beranda",
+    "errors": {
+      "emailRequired": "Email wajib diisi.",
+      "emailInvalid": "Format email tidak valid.",
+      "passwordRequired": "Kata sandi wajib diisi.",
+      "notActive": "Login belum aktif (Tahap 1). Tidak ada data yang dikirim atau disimpan.",
+      "invalidCredentials": "Email atau kata sandi salah."
+    }
+  },
+  "profile": {
+    "button": "Profil",
+    "menuLabel": "Menu profil",
+    "settings": "Pengaturan",
+    "login": "Masuk",
+    "logout": "Keluar",
+    "demo": "demo"
   }
 }

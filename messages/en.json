@@ -99,7 +99,10 @@
     "completeTitle": "Thank you for participating",
     "completeText": "You have completed the questionnaire.",
     "demoNote": "Demo mode: answers are not saved to any server.",
-    "contact": "Questions? Contact the researcher:"
+    "contact": "Questions? Contact the researcher:",
+    "sectionProgress": "Section {current} of {total}",
+    "sectionFallbackTitle": "Section {number}",
+    "pageErrors": "{count, plural, one {# question} other {# questions}} in this section need attention."
   },
   "builder": {
     "title": "Questionnaire builder",
@@ -142,6 +145,127 @@
       "longAnswer": "Long answer",
       "numeric": "Numeric",
       "dropdown": "Dropdown"
+    },
+    "defaultSectionTitle": "Section {number}",
+    "addSection": "Add section",
+    "removeSectionHint": "Deleting a section moves its questions to \"No section\".",
+    "unsectioned": "No section",
+    "sectionName": "Section name",
+    "sectionDescription": "Section description (optional)",
+    "moveSectionUp": "Move section up",
+    "moveSectionDown": "Move section down",
+    "removeSection": "Delete section",
+    "emptySection": "No questions in this section yet.",
+    "addToSection": "Section for the new question",
+    "addToUnsectioned": "Add to: No section",
+    "addToNamed": "Add to: {name}",
+    "questionSection": "Question section",
+    "navigationMode": "Respondent navigation mode",
+    "navPerQuestion": "One question per screen",
+    "navPerSection": "One section per screen",
+    "navNote": "Per-section mode shows every question in a section at once; required-field validation and progress are counted per section.",
+    "navNeedsSections": "There are no sections yet, so respondents still see one question per screen. Add a section to make this mode apply.",
+    "previewView": "Preview view",
+    "previewPaged": "Per screen",
+    "previewAll": "All questions"
+  },
+  "responses": {
+    "title": "Responses",
+    "demoNotice": "Demo data, not real respondent data",
+    "count": "{count} respondents",
+    "empty": "No responses yet."
+  },
+  "data": {
+    "title": "Data",
+    "demoNotice": "Demo data, not real respondent data",
+    "description": "Analysis-ready dataset. Likert answers use reverse scoring when enabled on the question.",
+    "exportCsv": "Export CSV",
+    "exportExcel": "Export Excel",
+    "exportStats": "Export SPSS/R",
+    "soon": "soon",
+    "empty": "No data yet."
+  },
+  "analysis": {
+    "title": "Analysis",
+    "demoNotice": "Demo data, not research results",
+    "reliability": "Reliability (Cronbach's alpha)",
+    "alphaValue": "α = {value}",
+    "alphaNote": "Computed from Likert items after reverse scoring, using only respondents who answered every item.",
+    "itemStats": "Item statistics",
+    "item": "Item",
+    "n": "N",
+    "mean": "Mean",
+    "sd": "Standard deviation",
+    "chartTitle": "Mean score per item",
+    "notEnough": "Not enough data to analyze."
+  },
+  "integrations": {
+    "title": "Integrations",
+    "description": "These modules will be available in a later phase.",
+    "notActive": "Not active",
+    "connect": "Connect",
+    "googleSheets": "Google Sheets",
+    "googleSheetsDesc": "Sync responses to a spreadsheet.",
+    "supabase": "Supabase",
+    "supabaseDesc": "Database and authentication.",
+    "rEngine": "R statistics engine",
+    "rEngineDesc": "Automatic server-side analysis."
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "language": "Language",
+    "theme": "Theme",
+    "product": "Product",
+    "productName": "Product name",
+    "brandNote": "Product name and identity are changed in src/config/brand.ts."
+  },
+  "music": {
+    "toggle": "Background music",
+    "panelTitle": "Background music (optional)",
+    "description": "Original synthesized ambient tones. Never plays automatically.",
+    "play": "Play",
+    "pause": "Pause",
+    "mute": "Mute",
+    "volume": "Volume",
+    "track": "Choose track",
+    "tracks": {
+      "calm": "Calm",
+      "drift": "Drift",
+      "light": "Bright"
+    },
+    "trackNote": "Track choice is a placeholder: three synthesized tone presets.",
+    "statusIdle": "Music is off. Press Play if you would like to listen.",
+    "statusPlaying": "Now playing.",
+    "errors": {
+      "blocked": "Your browser refused to play audio. Try pressing Play again.",
+      "unsupported": "This browser does not support audio playback."
     }
+  },
+  "login": {
+    "stageBadge": "Stage 1: login not active yet",
+    "title": "Sign in",
+    "description": "Sign in to manage your research projects.",
+    "email": "Email",
+    "password": "Password",
+    "togglePassword": "Show or hide password",
+    "submit": "Sign in",
+    "inviteOnly": "There is no public sign-up. Access is granted by invitation.",
+    "backHome": "Back to home",
+    "errors": {
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Email format is not valid.",
+      "passwordRequired": "Password is required.",
+      "notActive": "Login is not active yet (Stage 1). Nothing was sent or stored.",
+      "invalidCredentials": "Incorrect email or password."
+    }
+  },
+  "profile": {
+    "button": "Profile",
+    "menuLabel": "Profile menu",
+    "settings": "Settings",
+    "login": "Sign in",
+    "logout": "Sign out",
+    "demo": "demo"
   }
 }

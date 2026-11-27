@@ -30,6 +30,16 @@ export interface LikertConfig {
   reverseScored: boolean;
 }
 
+/** Seksi pengelompok soal. Judul dan deskripsi adalah konten peneliti (tidak diterjemahkan). */
+export interface Section {
+  id: string;
+  title: string;
+  description?: string;
+}
+
+/** Cara responden menelusuri kuesioner: satu soal per layar, atau satu seksi per layar. */
+export type NavigationMode = "perQuestion" | "perSection";
+
 export interface Question {
   id: string;
   type: QuestionType;
@@ -38,6 +48,7 @@ export interface Question {
   required: boolean;
   likert?: LikertConfig; // untuk type "likert"
   choices?: string[]; // untuk multipleChoice, checkbox, dropdown
+  sectionId?: string; // kosong = "Tanpa seksi"
 }
 
 export interface Questionnaire {
@@ -51,4 +62,6 @@ export interface Questionnaire {
   consentText: string[];
   contactEmail?: string;
   questions: Question[];
+  sections?: Section[]; // urutan array = urutan tampil
+  navigationMode?: NavigationMode; // default "perQuestion"
 }

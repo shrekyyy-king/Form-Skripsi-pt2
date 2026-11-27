@@ -3,4 +3,5 @@ export {
   mockProjectRepository as projectRepository,
   mockActivityRepository as activityRepository,
   mockQuestionnaireRepository as questionnaireRepository,
+  mockResponseRepository as responseRepository,
 } from "./mock/mock-repositories";

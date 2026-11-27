@@ -1,14 +1,13 @@
-import { User } from "lucide-react";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { BrandMark } from "@/components/layout/brand-mark";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { ProfileMenu } from "@/components/layout/profile-menu";
 import { SidebarNav } from "@/components/layout/sidebar-nav";
 import { ThemeSwitcher } from "@/components/layout/theme-switcher";
 
 export default async function DashboardLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("common");
   return (
     <div className="flex min-h-screen">
       <aside className="hidden w-60 shrink-0 flex-col gap-6 border-r bg-card p-4 md:flex">
@@ -21,9 +20,7 @@ export default async function DashboardLayout({ children, params }: { children: 
           <div className="ml-auto flex items-center gap-1">
             <LanguageSwitcher />
             <ThemeSwitcher />
-            <span className="ml-2 flex items-center gap-2 rounded-full border px-3 py-1 text-sm">
-              <User className="h-4 w-4" aria-hidden /> {t("profileDemo")}
-            </span>
+            <ProfileMenu />
           </div>
         </header>
         <div className="border-b md:hidden"><SidebarNav orientation="horizontal" /></div>

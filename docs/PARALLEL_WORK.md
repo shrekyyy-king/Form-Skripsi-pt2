@@ -21,7 +21,7 @@ Proyek dikerjakan seperti biasa oleh Claude di chat utama ("integrator"). Sebagi
 ## Kepemilikan berkas
 | Tugas | Berkas |
 |---|---|
-| Utama (proyek) | `src/features/projects/**`, `dashboard/page.tsx`, `dashboard/projects/**`, `src/lib/data/**`, `src/i18n/**`, config root |
+| Utama (proyek, respons, data, analisis, integrasi, pengaturan) | `src/features/projects/**`, `src/features/data/**`, `src/lib/stats.ts`, `src/types/response.ts`, `dashboard/{responses,data,analysis,integrations,settings}/**`, `dashboard/page.tsx`, `dashboard/projects/**`, `src/lib/data/**`, `src/i18n/**`, config root |
 | Seksi | `src/types/index.ts` (hanya menambah), `src/features/builder/**`, `src/features/survey/**`, `fixtures-questionnaire.ts`, `dashboard/builder/**`, rute survey kecuali layout |
 | Musik, login, profil | `src/features/music/**`, `src/features/auth/**`, `src/lib/auth/**`, `src/config/music.ts`, `components/layout/profile-menu.tsx`, `dashboard/layout.tsx`, `survey/[slug]/layout.tsx`, `src/app/[locale]/login/**` |
 | QA dan dokumen (terakhir) | `README.md`, `docs/**`, berkas status di akar |
