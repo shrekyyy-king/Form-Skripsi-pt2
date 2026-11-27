@@ -25,7 +25,3 @@
 
 ## 2026-11-27 — Bagian 8: data dan analisis (Claude-5, chat utama)
 - Menambah ResponseRepository + fixture respons demo, stats.ts, features/data, 5 halaman dashboard, pesan id/en. Grafik memakai CSS (Recharts ditunda).
-
-## 2026-11-27 — Penggabungan hasil Claude-2 (seksi) dan Claude-3 (musik, login, profil)
-- Menyalin berkas, menggabungkan pesan ke messages/id.json dan en.json (tanpa konflik kunci), menghapus fragmen. Pemeriksaan otomatis: tidak ada impor hilang, semua namespace dan kunci literal ada.
-- Belum dijalankan di Next.js oleh integrator; build GitHub adalah uji pertama.

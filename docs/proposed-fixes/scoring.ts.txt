@@ -1,0 +1,23 @@
+// USULAN untuk src/lib/scoring.ts (temuan R-7). Belum dijalankan/diuji.
+// Disimpan sebagai .txt agar tidak ikut typecheck.
+import type { LikertConfig } from "@/types";
+
+/**
+ * Skor akhir sebuah jawaban Likert dengan reverse scoring. Fungsi murni.
+ * Mengembalikan null bila nilai tidak valid (opsi kosong, atau nilai bukan salah satu opsi),
+ * agar pemanggil tidak menghitung rata-rata dari NaN.
+ * Catatan: `direction` hanya mengatur urutan tampilan; skor mengikuti `value` opsi.
+ */
+export function scoreLikert(value: number, config: LikertConfig): number | null {
+  const values = config.options.map((o) => o.value);
+  if (values.length === 0 || !values.includes(value)) return null;
+  if (!config.reverseScored) return value;
+  return Math.max(...values) + Math.min(...values) - value;
+}
+
+/*
+Contoh uji unit (untuk Vitest/Jest kelak):
+- skala 1-5, reverse: scoreLikert(1) = 5, scoreLikert(3) = 3, scoreLikert(5) = 1
+- skala 0-4, reverse: scoreLikert(0) = 4
+- options kosong: null; value 9 pada skala 1-5: null
+*/
