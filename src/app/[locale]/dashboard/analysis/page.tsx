@@ -2,9 +2,8 @@ import { getFormatter, getTranslations, setRequestLocale } from "next-intl/serve
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { DataTable, QuestionLegend } from "@/features/data/data-table";
+import { analyzeLikertItems } from "@/features/data/item-analysis";
 import { loadDemoData } from "@/features/data/load-demo";
-import { scoreLikert } from "@/lib/scoring";
-import { cronbachAlpha, mean, standardDeviation } from "@/lib/stats";
 
 export default async function AnalysisPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -14,29 +13,9 @@ export default async function AnalysisPage({ params }: { params: Promise<{ local
   const demo = await loadDemoData();
   const num = (v: number) => (Number.isFinite(v) ? format.number(v, { maximumFractionDigits: 2 }) : "-");
 
-  const items = demo
-    ? demo.questionnaire.questions.flatMap((q, i) => (q.type === "likert" && q.likert ? [{ q, config: q.likert, label: `Q${i + 1}` }] : []))
-    : [];
-
-  // Hanya responden yang menjawab semua butir Likert; reverse scoring diterapkan.
-  const matrix: number[][] = [];
-  for (const r of demo?.responses ?? []) {
-    const row: number[] = [];
-    for (const { q, config } of items) {
-      const n = Number(r.answers[q.id]);
-      if (Number.isNaN(n)) break;
-      row.push(scoreLikert(n, config));
-    }
-    if (row.length === items.length && items.length > 0) matrix.push(row);
-  }
-
-  const stats = items.map(({ config, label, q }, j) => {
-    const xs = matrix.map((row) => row[j] ?? NaN);
-    const m = mean(xs);
-    const max = Math.max(...config.options.map((o) => o.value));
-    return { label, text: q.text, n: xs.length, mean: m, sd: standardDeviation(xs), percent: Number.isFinite(m) ? Math.min(100, (m / max) * 100) : 0 };
-  });
-  const alpha = cronbachAlpha(matrix);
+  const analysis = demo ? analyzeLikertItems(demo.questionnaire, demo.responses) : null;
+  const stats = analysis?.items ?? [];
+  const alpha = analysis?.alpha ?? null;
 
   return (
     <div className="space-y-6">

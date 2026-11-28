@@ -10,7 +10,7 @@
     --card-foreground: 215 18% 16%;
     --muted: 40 12% 94%;
     --muted-foreground: 215 8% 42%;
-    --primary: 142 16% 40%;
+    --primary: 142 16% 38%;
     --primary-foreground: 40 25% 98%;
     --secondary: 210 40% 92%;
     --secondary-foreground: 213 35% 28%;
@@ -18,8 +18,9 @@
     --destructive-foreground: 0 0% 100%;
     --border: 40 10% 88%;
     --input: 40 10% 88%;
-    --ring: 142 16% 40%;
+    --ring: 142 16% 38%;
     --radius: 0.75rem;
+    color-scheme: light;
   }
   .dark {
     --background: 215 18% 9%;
@@ -32,12 +33,18 @@
     --primary-foreground: 215 18% 9%;
     --secondary: 213 25% 22%;
     --secondary-foreground: 210 40% 90%;
-    --destructive: 0 62% 55%;
+    --destructive: 0 72% 66%;
     --destructive-foreground: 0 0% 100%;
     --border: 215 12% 22%;
     --input: 215 12% 22%;
     --ring: 142 20% 56%;
+    color-scheme: dark; /* kontrol bawaan browser (daftar select, scrollbar) ikut gelap */
   }
   * { @apply border-border; }
   body { @apply bg-background text-foreground antialiased; }
+  /* Cincin fokus seragam untuk tautan, tombol, dan select yang tidak punya kelas fokus sendiri.
+     :where() = spesifisitas nol, jadi kelas fokus komponen (mis. Input) tetap menang. */
+  :where(a, button, select, summary):focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
 }

@@ -1,0 +1,12 @@
+# Pelajaran dari Pengerjaan (WAJIB dibaca AI baru)
+
+1. **Cara pengguna bekerja**: lewat web/aplikasi Windows tanpa terminal. Kode diserahkan sebagai zip berisi HANYA berkas yang berubah (struktur folder utuh); pengguna mengunggah lewat web GitHub; build berjalan di GitHub Actions dan pengguna mengirim log langkah "Run npm run build".
+2. **Unggahan**: folder harus diseret sebagai folder utuh. Bila isi folder diseret, berkas menumpuk di akar repo (muncul nama seperti `index (4).ts`) dan merusak build. Mitigasi: `tsconfig.json` hanya menyertakan `src/**`. Minta pengguna memeriksa path lengkap di daftar unggahan sebelum commit.
+3. **Berkas berawalan titik sering tidak ter-upload**. Paket tidak memuatnya: ESLint ada di `package.json` (`eslintConfig`), `.gitignore` tidak wajib, dan `.github/workflows/pages.yml` dibuat manual oleh pengguna (isinya ada di README).
+4. **GitHub Pages**: `output: "export"`, `basePath` = `/<nama-repo>` lewat `NEXT_PUBLIC_BASE_PATH` di pages.yml (otomatis dari nama repo). Pengaturan Settings → Pages → Source = GitHub Actions. Repo harus Public.
+5. **Ekspor statis**: tanpa middleware/API route/cookies/headers; URL selalu berawalan `/id` atau `/en`; `/` dialihkan oleh `public/index.html`; setiap page async memanggil `setRequestLocale`; rute dinamis butuh `generateStaticParams`, sehingga proyek buatan runtime ("lokal") tidak bisa punya halaman detail/builder.
+6. **Lingkungan chat Claude berbeda-beda**: ada yang tanpa npm/jaringan (jangan klaim teruji; periksa impor, namespace/kunci pesan, tipe), ada yang punya npm (jalankan `tsc`, `next lint`, `next build`). Di lingkungan ber-npm pun Google Fonts tidak bisa diakses, jadi font `next/font/google` perlu di-stub pada salinan uji (jangan ikut diserahkan). Tidak ada browser: perilaku visual/audio/keyboard hanya bisa diuji pengguna (`docs/TESTING_CHECKLIST.md`).
+7. **Galat yang pernah terjadi**: `request.ts` hilang saat unggah; berkas liar di akar; keduanya karena cara unggah, bukan kode.
+8. **Gaya**: penjelasan bahasa Indonesia, nama kode bahasa Inggris, jawaban ringkas, langkah bernomor yang bisa diikuti pemula GitHub.
+9. **Pesan terjemahan**: satu `messages/id.json` dan `en.json`; saat kerja paralel, tulis fragmen di `docs/status/` dan biarkan integrator menggabungkan.
+10. **Audit akhir (2026-11-27)**: hasil di `docs/QA_REPORT.md`; perbaikan usulan di `docs/proposed-fixes/` (berkas utuh, belum diterapkan ke `src/`).

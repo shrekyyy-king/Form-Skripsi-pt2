@@ -16,8 +16,8 @@ export default async function DashboardLayout({ children, params }: { children: 
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-14 items-center justify-between border-b px-4">
-          <div className="md:hidden"><BrandMark /></div>
-          <div className="ml-auto flex items-center gap-1">
+          <div className="min-w-0 md:hidden"><BrandMark /></div>
+          <div className="ml-auto flex shrink-0 items-center gap-1">
             <LanguageSwitcher />
             <ThemeSwitcher />
             <ProfileMenu />

@@ -82,10 +82,10 @@ export function ProfileMenu() {
         aria-controls={open ? menuId : undefined}
         onClick={() => setOpen((value) => !value)}
         onKeyDown={onTriggerKeyDown}
-        className="flex items-center gap-2 rounded-full border px-3 py-1 text-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex h-9 w-9 items-center justify-center gap-2 rounded-full border text-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-auto sm:w-auto sm:px-3 sm:py-1"
       >
         <User className="h-4 w-4" aria-hidden />
-        {t("button")}
+        <span className="sr-only sm:not-sr-only">{t("button")}</span>
       </button>
 
       {open && (

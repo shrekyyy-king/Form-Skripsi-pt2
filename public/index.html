@@ -1,9 +1,21 @@
 <!doctype html>
+<!-- USULAN pengganti public/index.html. Menyalin ke public/index.html membuat pilihan bahasa
+     (disimpan pengalih bahasa di localStorage "rp.locale") dipulihkan saat membuka alamat akar. -->
 <html lang="id">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="0; url=id/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Research Platform</title>
+  <noscript><meta http-equiv="refresh" content="0; url=id/"></noscript>
+  <script>
+    (function () {
+      var target = "id/";
+      try { if (window.localStorage.getItem("rp.locale") === "en") target = "en/"; } catch (e) {}
+      window.location.replace(target);
+    })();
+  </script>
 </head>
-<body><a href="id/">Buka aplikasi</a></body>
+<body>
+  <p><a href="id/">Buka aplikasi (Bahasa Indonesia)</a> &middot; <a href="en/">Open app (English)</a></p>
+</body>
 </html>

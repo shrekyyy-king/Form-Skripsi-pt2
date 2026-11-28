@@ -20,6 +20,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   const questionnaire = await questionnaireRepository.getByProjectId(id);
   const t = await getTranslations("projectDetail");
   const tp = await getTranslations("projects");
+  const tc = await getTranslations("common");
   const format = await getFormatter();
 
   return (
@@ -30,7 +31,10 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <h1 className="text-2xl font-semibold">{project.title}</h1>
           <p className="text-muted-foreground">{project.description || t("descriptionEmpty")}</p>
         </div>
-        <Badge>{tp(`status.${project.status}`)}</Badge>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge>{tp(`status.${project.status}`)}</Badge>
+          <Badge>{tc("demoData")}</Badge>
+        </div>
       </div>
       <Card>
         <CardContent className="grid gap-4 pt-5 text-sm sm:grid-cols-3">
@@ -38,7 +42,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             <p className="text-muted-foreground">{t("detailQuestionnaire")}</p>
             <p>{tp(`questionnaireStatus.${project.questionnaireStatus}`)}{questionnaire ? ` · ${t("detailQuestions", { count: questionnaire.questions.length })}` : ""}</p>
           </div>
-          <div><p className="text-muted-foreground">{tp("title")}</p><p>{tp("respondents", { count: project.respondentCount })}</p></div>
+          <div><p className="text-muted-foreground">{t("detailRespondents")}</p><p>{tp("respondents", { count: project.respondentCount })}</p></div>
           <div><p className="text-muted-foreground">{t("detailCreated")}</p><p>{format.dateTime(new Date(project.createdAt), { dateStyle: "medium" })}</p></div>
         </CardContent>
       </Card>

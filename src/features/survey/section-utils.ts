@@ -111,13 +111,15 @@ export function getPageProgress(pageCount: number, pageIndex: number): PageProgr
 
 export type AnswerError = "required" | "invalidNumber";
 
+// Jawaban teks yang hanya berisi spasi dianggap kosong (soal wajib tidak boleh lolos dengan spasi).
 const isEmptyAnswer = (value: AnswerValue | undefined) =>
-  value === undefined || value === "" || (Array.isArray(value) && value.length === 0);
+  value === undefined || (typeof value === "string" && value.trim() === "") || (Array.isArray(value) && value.length === 0);
 
 /** Validasi satu jawaban. Mengembalikan kode galat (diterjemahkan di komponen) atau `null` bila valid. */
 export function validateAnswer(question: Question, value: AnswerValue | undefined): AnswerError | null {
   if (isEmptyAnswer(value)) return question.required ? "required" : null;
-  if (question.type === "numeric" && typeof value === "string" && Number.isNaN(Number(value))) return "invalidNumber";
+  // Number.isFinite menolak NaN dan Infinity (mis. "1e999").
+  if (question.type === "numeric" && typeof value === "string" && !Number.isFinite(Number(value))) return "invalidNumber";
   return null;
 }
 

@@ -25,3 +25,14 @@
 
 ## 2026-11-27 — Bagian 8: data dan analisis (Claude-5, chat utama)
 - Menambah ResponseRepository + fixture respons demo, stats.ts, features/data, 5 halaman dashboard, pesan id/en. Grafik memakai CSS (Recharts ditunda).
+
+## 2026-11-27 — Penggabungan hasil Claude-2 (seksi) dan Claude-3 (musik, login, profil)
+- Menyalin berkas, menggabungkan pesan ke messages/id.json dan en.json (tanpa konflik kunci), menghapus fragmen. Pemeriksaan otomatis: tidak ada impor hilang, semua namespace dan kunci literal ada.
+- Belum dijalankan di Next.js oleh integrator; build GitHub adalah uji pertama.
+
+## 2026-11-27 — Audit mutu dan dokumentasi akhir (Akun-3)
+- Kode sumber tidak diubah. Menambah docs/QA_REPORT.md, docs/TESTING_CHECKLIST.md, docs/FINAL_NOTES.md, docs/proposed-fixes/ (FIX-01 sampai 05, diuji bersama: tsc, lint, build), docs/qa-scripts/qa-checks.ts; memperbarui README.md, AI_HANDOFF.md, docs/ARCHITECTURE.md, docs/DECISIONS.md, docs/LESSONS_LEARNED.md, status akar.
+- Belum diuji: perilaku di browser (lihat TESTING_CHECKLIST).
+
+## 2026-11-27 — Penggabungan Akun-2 dan Akun-3
+- Menyalin hasil, menggabungkan fragmen pesan (dashboard, projects, survey, states, projectDetail), menerapkan FIX-01/02/03/05, mengganti public/index.html, menambah SurveyLanguageSwitcher (mitigasi Q-01), menghapus docs/proposed-fixes.

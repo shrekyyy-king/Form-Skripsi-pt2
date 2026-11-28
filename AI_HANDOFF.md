@@ -1,10 +1,9 @@
-# Serah Terima untuk AI Lain
+# Serah Terima untuk AI Lain (diperbarui 2026-11-27, setelah audit Akun-3)
 
-1. Baca `CLAUDE.md`, `CURRENT_STATUS.md`, `NEXT_TASKS.md`, lalu `ai-context/PROJECT_CONTEXT.md`. Untuk mutu kode baca `docs/QA_REPORT.md`.
-2. Kerjakan tugas teratas di `NEXT_TASKS.md`, satu bagian per respons.
-3. Pengguna bekerja lewat Claude web/aplikasi Windows, bukan Claude Code: kode diberikan sebagai berkas/zip (hanya berkas yang berubah, struktur folder utuh), dan pengguna menjalankan `npm` sendiri / build lewat GitHub Actions. Minta log galat bila ada.
-4. Setelah selesai, perbarui tiga berkas status dan sebutkan berkas yang dibuat serta yang belum.
-5. Jangan masuk Tahap 2 tanpa instruksi eksplisit pengguna.
-6. Jangan klaim sesuatu berfungsi bila belum dijalankan. Audit 2026-11-27 hanya membaca kode; `typecheck`/`lint`/`build` belum dijalankan olehnya.
-7. Berkas berawalan titik (`.github`, `.gitignore`, ...) tidak ikut zip; dibuat manual di GitHub. Zip hasil kerja jangan menyertakannya.
-8. Kerja paralel antar-akun: aturan kepemilikan berkas ada di `docs/PARALLEL_WORK.md`. Catatan tiap akun di `docs/status/<nama>.md`.
+Baca berurutan: CLAUDE.md, docs/LESSONS_LEARNED.md, docs/BRIEF_TAHAP_1.md, CURRENT_STATUS.md, NEXT_TASKS.md, docs/PARALLEL_WORK.md, docs/FINAL_NOTES.md, docs/QA_REPORT.md. Rujukan rinci: docs/status/*.md.
+
+Ringkasan: Tahap 1 (frontend + data mock) lengkap di sisi kode. Pada audit, `tsc`, `next lint`, dan `next build` (47 halaman) bersih di lingkungan Akun-3 (font Google di-stub; bukan di GitHub Actions). Terbukti jalan di GitHub Pages sebelumnya (diuji pengguna): fondasi, dashboard, proyek, responden dasar, builder dasar. Belum terbukti di browser: seksi, musik, login, profil, respons/data/analisis/integrasi/pengaturan. Tahap 2 (backend) hanya atas instruksi eksplisit pengguna.
+
+Temuan terbuka terpenting (rincian di docs/QA_REPORT.md): Q-01 jawaban mungkin hilang saat ganti bahasa di tengah survei (diduga, perlu uji); Q-02 Next 15.1.6 rentan (FIX-04); Q-03 CSV injection (FIX-01); Q-04 kontras galat mode gelap (FIX-03); Q-05 validasi spasi (FIX-02). Berkas perbaikan utuh ada di docs/proposed-fixes/ dan BELUM diterapkan ke src/. Akun-1 yang menerapkannya.
+
+Pengguna tidak punya terminal; ikuti docs/LESSONS_LEARNED.md (unggah folder utuh, build di GitHub Actions, kirim log "Run npm run build"). Setelah tugas selesai, serahkan zip berisi berkas yang berubah, dan catat di docs/status/.

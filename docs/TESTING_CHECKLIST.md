@@ -1,101 +1,95 @@
-# Daftar Uji Manual Tahap 1
+# Daftar Uji Manual
 
-Belum ada uji otomatis. Centang tiap butir setelah dicoba di GitHub Pages atau `npm run dev`. Catat hasil dan galat konsol di bawah tiap rute.
+Semua butir di bawah BELUM dijalankan oleh siapa pun di browser (hanya build, tipe, lint, dan logika murni yang sudah diuji; lihat `docs/QA_REPORT.md`). Centang `[x]` hanya setelah Anda benar-benar mencobanya, dan catat temuan di tabel akhir.
 
-## Uji umum (ulangi untuk setiap rute di bawah)
-Untuk **setiap rute**, uji matriks berikut. Tulis "OK/Gagal + catatan".
+## Cara umum
+Buka situs (GitHub Pages atau `npm run dev` lalu `http://localhost:3000`). Untuk setiap halaman, ulangi 4 kombinasi:
+1. Bahasa Indonesia (`/id/...`) dan Inggris (`/en/...`)
+2. Mode terang dan gelap (tombol tema)
+3. Layar lebar (laptop) dan sempit (HP, atau jendela browser dikecilkan sampai sekitar 375 px; di browser: F12, ikon perangkat)
+4. Hanya keyboard: Tab, Shift+Tab, Enter, Spasi, Escape, panah. Fokus harus selalu terlihat dan urutannya masuk akal.
 
-| Aspek | Cara uji |
-|---|---|
-| Bahasa | Buka `/id/...` lalu `/en/...`; pakai pengalih bahasa. Tidak ada teks tertinggal bahasa lain (kecuali konten demo/peneliti). Bahasa Inggris tidak memunculkan kunci mentah seperti `projects.title`. |
-| Tema | Terang, gelap, dan "sistem". Cek kontras teks, galat (merah), badge, fokus. |
-| Mobile | Lebar 360 px dan 768 px: tanpa gulir horizontal (kecuali navigasi mobile), tombol mudah disentuh, dialog tidak terpotong. |
-| Keyboard | Tab melewati semua elemen interaktif berurutan, fokus terlihat jelas, Enter/Spasi mengaktifkan, Esc menutup dialog, tidak ada jebakan fokus. |
-| Konsol | Tidak ada galat merah atau peringatan hydration/key di DevTools. |
-| Muat ulang | Refresh langsung pada URL (bukan lewat klik): halaman tetap termuat (uji ekspor statis + `basePath`). |
+Cek umum tiap halaman: tidak ada teks berbahasa lain dari pilihan bahasa, tidak ada kunci mentah (mis. `builder.title`), tidak ada konten terpotong atau scroll samping, data demo berlabel "Data demo".
 
-## Rute
+## Rute publik
+**`/` (akar situs)**
+- [ ] Otomatis menuju `/id/`; tautan "Buka aplikasi" berfungsi.
 
-### `/` (pengalihan)
-- [ ] Di GitHub Pages: `https://<user>.github.io/<repo>/` menuju `/id/`.
-- [ ] Lokal (`npm run dev`): catat apakah `/` 404 (lihat I-2); `/id/` harus jalan.
+**`/id` dan `/en` (beranda)**
+- [ ] Teks, tombol menuju dashboard/survei/login benar; pengalih bahasa dan tema bekerja; pilihan bahasa tetap setelah pindah halaman.
 
-### `/id/` dan `/en/` (beranda)
-- [ ] Judul, subjudul, tombol "Buka dashboard" menuju `/dashboard/`.
-- [ ] Pengalih bahasa dan tema berfungsi; bahasa tetap sesuai URL.
+**`/login`**
+- [ ] Kirim form kosong: muncul galat email dan kata sandi (tiap bahasa).
+- [ ] Email salah format: galat format. Email valid + sandi apa pun: pesan "belum aktif (Tahap 1)", kolom sandi dikosongkan.
+- [ ] Tombol tampilkan/sembunyikan sandi; tidak ada tautan pendaftaran; teks "akses lewat undangan" ada.
+- [ ] Keyboard: urutan Email, Sandi, tombol mata, Masuk.
 
-### `/dashboard/` (ringkasan)
-- [ ] Lencana "Data demo, bukan data nyata" tampil.
-- [ ] Tiga kartu statistik: total proyek 4, total responden 340, kuesioner aktif 1 (data demo saat ini).
-- [ ] Tanggal tampil sesuai bahasa (cek `/en/` format bulan Inggris).
-- [ ] Tautan proyek terbaru menuju detail; "Lihat semua proyek" menuju daftar.
-- [ ] Item "Ringkasan" di sidebar tampak aktif (cek temuan S-6).
-- [ ] Mobile: navigasi horizontal dapat digulir; sidebar kiri tersembunyi.
+**`/survey/demo-servqual` (pengantar)**
+- [ ] Judul, deskripsi, peneliti, estimasi waktu, tombol mulai.
+- [ ] Tombol musik (ikon not) di header.
 
-### `/dashboard/projects/`
-- [ ] Empat proyek demo tampil dengan status dan kuesioner yang benar.
-- [ ] Pencarian: ketik "layanan" menyisakan 1; ketik teks yang tidak ada memunculkan pesan kosong.
-- [ ] Filter status memfilter; kombinasi dengan pencarian bekerja.
-- [ ] "Proyek baru" membuka dialog; Esc/Batal menutup; fokus kembali ke tombol.
-- [ ] Kirim dialog kosong: galat "Judul minimal 3 karakter" (id dan en). Deskripsi >500 karakter: galat.
-- [ ] Buat proyek valid: muncul di urutan teratas, berlabel "Lokal (tidak tersimpan)", **tanpa** tautan detail/builder; refresh menghilangkannya.
-- [ ] Setelah galat lalu dialog ditutup dan dibuka lagi, apakah galat lama masih tampak? (catat)
-- [ ] Hanya proyek terbit yang punya tautan "Buka kuesioner".
+**`/consent`**
+- [ ] Tombol "Setuju" nonaktif sebelum kotak dicentang. "Tolak" menampilkan pesan dan tombol kembali.
 
-### `/dashboard/projects/new/`
-- [ ] Form sama; submit menampilkan kartu "Proyek ... dibuat" dan catatan demo; form dikosongkan.
-- [ ] "Kembali ke daftar proyek" berfungsi.
+**`/questions` (mode per seksi, bawaan demo)**
+- [ ] Layar 1: 4 soal Likert, progres "Seksi 1 dari 2". "Berikutnya" tanpa mengisi: galat di tiap soal + ringkasan, fokus ke soal pertama yang kosong.
+- [ ] Layar 2: "Angkatan" wajib; "Semester" diisi huruf ditolak; soal wajib yang diisi hanya spasi (cek Q-05: seharusnya ditolak, saat ini kemungkinan lolos).
+- [ ] "Sebelumnya" mempertahankan jawaban. Layar baru mulai dari atas.
+- [ ] Mode per soal: ubah `navigationMode` di `fixtures-questionnaire.ts` (opsional) dan cek satu soal per layar.
+- [ ] **Q-01:** setelah mengisi beberapa jawaban, tekan pengalih bahasa. Catat: apakah jawaban hilang dan Anda dikembalikan ke pengantar?
+- [ ] Refresh di tengah pengisian: kembali ke pengantar (perilaku yang dijelaskan di kode).
+- [ ] Pengaturan "kurangi animasi" di sistem operasi: transisi tidak bergerak.
 
-### `/dashboard/projects/{p1..p4}/`
-- [ ] Judul, deskripsi, lencana status, jumlah soal (hanya p1 punya kuesioner: 8 soal).
-- [ ] Label kolom ke-2 (periksa R-1: seharusnya "Responden", bukan "Proyek penelitian").
-- [ ] "Buka builder" selalu ada; "Buka kuesioner" hanya untuk p1 (terbit).
-- [ ] URL `/dashboard/projects/xyz/` menghasilkan 404.
+**`/complete`**
+- [ ] Ikon, terima kasih, catatan demo, email kontak, tombol "Kembali ke awal" (state dibersihkan).
 
-### `/dashboard/builder/{p1..p4}/`
-- [ ] p1 memuat 8 soal demo; p2-p4 mulai kosong dengan judul proyek.
-- [ ] Ubah judul/deskripsi; tambah soal tiap 7 tipe; ubah tipe soal yang sudah ada.
-- [ ] Naik/turun (tombol pertama tidak bisa naik, terakhir tidak bisa turun); hapus soal terpilih mengosongkan editor.
-- [ ] Likert: ubah titik 2-10, arah, reverse, label/nilai/deskripsi. Uji dua opsi bernilai sama (S-3) dan mengosongkan kolom nilai (S-4).
-- [ ] Soal pilihan: satu pilihan per baris; baris kosong/duplikat (S-3).
-- [ ] Pratinjau: tampilan sama dengan responden, jawaban dapat diisi, tidak tersimpan.
-- [ ] Saklar publikasi hanya mengubah tampilan halaman (catatan demo tampil).
-- [ ] Refresh membuang semua perubahan (sesuai desain demo).
-- [ ] Keyboard: seluruh tombol ikon punya nama (pembaca layar: "Naikkan", "Turunkan", "Hapus soal").
+**Musik (di header survei)**
+- [ ] Saat halaman dibuka: TIDAK ada suara. Panel terbuka hanya saat ikon ditekan; Escape dan klik di luar menutupnya.
+- [ ] Putar: terdengar nada ambient pelan; Jeda; Bisukan; geser volume; ganti lagu (crossfade). Tutup panel: musik tetap jalan; pindah halaman survei: tetap jalan.
+- [ ] Muat ulang: volume terakhir diingat; musik tidak otomatis menyala.
+- [ ] Coba di Safari/iPhone bila ada (pembatasan audio paling ketat di sana). Bila gagal: pesan galat tampil dan Putar bisa ditekan lagi.
+- [ ] Panel di layar 320 sampai 375 px tidak keluar layar dan tidak menutup tombol soal saat tertutup.
 
-### `/survey/demo-servqual/` (pengantar)
-- [ ] Judul, deskripsi, peneliti, perkiraan waktu; tombol "Mulai".
-- [ ] Slug tak dikenal (`/survey/xyz/`) menghasilkan 404.
+## Rute peneliti
+**`/dashboard`**
+- [ ] Sapaan, tiga angka ringkasan, proyek terbaru, aktivitas, lencana "Data demo". Sidebar: item aktif benar. Di HP, sidebar/navigasi dapat dipakai.
+- [ ] **Menu profil (kanan atas):** klik membuka; Enter/Spasi/panah bawah membuka; panah atas/bawah, Home, End berpindah; Escape menutup dan fokus kembali ke tombol; klik luar menutup; Tab menutup. "Pengaturan" dan "Masuk" berpindah halaman; "Keluar" nonaktif.
 
-### `/survey/demo-servqual/consent/`
-- [ ] Tombol "Setuju dan lanjutkan" nonaktif sampai kotak dicentang.
-- [ ] "Tidak setuju" menampilkan pesan penolakan dan tombol kembali.
-- [ ] Buka langsung URL tanpa melewati pengantar: tetap dapat dipakai (catat perilaku).
+**`/dashboard/projects`**
+- [ ] Daftar 4 proyek; cari berdasarkan judul; filter status; "tidak ada hasil" tampil bila cocok nol.
+- [ ] Dialog "Buat proyek": judul < 3 huruf menolak; deskripsi > 500 huruf menolak; proyek baru muncul di atas dan bertanda lokal (tanpa tautan detail/builder). Escape menutup dialog.
 
-### `/survey/demo-servqual/questions/`
-- [ ] Buka langsung (tanpa persetujuan): dialihkan ke pengantar.
-- [ ] 8 soal berurutan: 4 Likert (soal ke-3 reverse), centang, dropdown, angka, jawaban panjang.
-- [ ] Soal wajib kosong memunculkan galat dan menahan maju; opsional boleh dilewati.
-- [ ] Angka: huruf/`e` ditolak; nilai `0` sah bila wajib.
-- [ ] "Sebelumnya" mempertahankan jawaban; bilah progres dan teks "Pertanyaan n dari 8" benar.
-- [ ] Gerakan berkurang: aktifkan "Reduce motion" di OS, transisi hilang.
-- [ ] **Ganti bahasa di tengah pengisian**: catat apakah jawaban hilang (S-1).
-- [ ] Keyboard: panah atas/bawah pada radio, Spasi pada kotak centang, dropdown dengan keyboard; fokus setelah klik "Berikutnya" (R-4).
-- [ ] Pembaca layar (bila ada): legend soal dibacakan bersama grup jawaban.
+**`/dashboard/projects/new`**
+- [ ] Form dan pesan sukses; tombol kembali.
 
-### `/survey/demo-servqual/complete/`
-- [ ] Hanya dapat dicapai setelah soal terakhir; tampil ikon, ucapan terima kasih, catatan "tidak disimpan", email peneliti.
-- [ ] Buka langsung tanpa persetujuan: dialihkan ke pengantar.
-- [ ] "Kembali ke awal" mengosongkan jawaban; mulai lagi dari soal 1 kosong.
+**`/dashboard/projects/p1` (juga p2, p3, p4)**
+- [ ] Ringkasan benar; tombol "Buka builder"; "Buka survei" hanya pada proyek terbit. Label di atas jumlah responden: seharusnya "Responden" (Q-11: saat ini "Proyek penelitian").
+- [ ] `/dashboard/projects/xyz` (id tidak ada): halaman 404.
 
-### Halaman placeholder: `/dashboard/responses|data|analysis|integrations|settings/`
-- [ ] Judul sesuai menu, pesan "akan dibangun pada tahap berikutnya" (id/en).
-- [ ] Item sidebar aktif sesuai halaman.
+**`/dashboard/builder/p1` (juga p2)**
+- [ ] Ubah judul/deskripsi; tambah soal tiap 7 tipe; ubah tipe; wajib; Likert: jumlah titik, arah, reverse, label, nilai; pilihan (satu per baris).
+- [ ] Seksi: tambah, ganti nama, naik/turun, hapus (soal pindah ke "Tanpa seksi"); pindah soal ke seksi lain; soal baru masuk seksi terpilih.
+- [ ] Mode navigasi per soal/seksi; peringatan bila per seksi tanpa seksi.
+- [ ] Pratinjau "Per layar" dan "Semua soal" sesuai mode.
+- [ ] Pembaca layar atau Tab: tombol Naik/Turun/Hapus (Q-08). Perubahan hanya di memori: refresh = hilang (normal Tahap 1).
 
-### Rute baru dari tugas paralel (BELUM ada di snapshot yang diaudit)
-Tambahkan butir uji setelah penggabungan: manajemen seksi di builder dan navigasi seksi di responden; pemutar musik (tanpa autoplay, kontrol keyboard, tidak memblokir halaman, berhenti saat berpindah rute sesuai desain); `/login` (UI saja, galat form id/en); dropdown profil (buka/tutup dengan keyboard, Esc, fokus).
+**`/dashboard/responses`, `/dashboard/data`**
+- [ ] 12 respons demo, kolom Q1..Q8, legenda soal. Halaman Data memakai skor terbalik (s3 berbeda dari Respons).
+- [ ] **Ekspor CSV:** file `data-demo.csv` terunduh; buka di Excel/Sheets; karakter Indonesia benar (BOM); kolom dan 12 baris benar. Tombol Excel dan SPSS/R nonaktif.
 
-## Setelah penggabungan
-- [ ] `npm run typecheck`, `npm run lint`, `npm run build` hijau secara lokal atau di Actions.
-- [ ] Skrip pemeriksaan kunci id/en ulang (kunci baru dari `docs/status/*.messages.*.json`).
-- [ ] Seluruh daftar di atas diulang di URL GitHub Pages sungguhan (bukan hanya lokal).
+**`/dashboard/analysis`**
+- [ ] Alpha Cronbach tampil sekitar 0,95 (data demo: 0,951); tabel rata-rata/SD per butir; batang. Angka berformat sesuai bahasa (koma desimal di id).
+
+**`/dashboard/integrations`, `/dashboard/settings`**
+- [ ] Tiga kartu "belum aktif", tombol nonaktif; pengaturan bahasa dan tema bekerja.
+
+## Lintas halaman
+- [ ] Judul tab (Q-07: saat ini semua sama).
+- [ ] URL tak dikenal (mis. `/id/tidak-ada`): halaman 404 (Q-12: berbahasa Inggris).
+- [ ] Zoom browser 200%: tidak ada konten hilang.
+- [ ] Mode gelap: teks galat terbaca (Q-04).
+
+## Catatan hasil
+| Tanggal | Rute | Kombinasi (bahasa/tema/layar) | Yang terjadi | Sesuai? |
+|---|---|---|---|---|
+| | | | | |

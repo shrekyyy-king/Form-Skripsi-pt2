@@ -1,12 +1,9 @@
 # Keputusan
 - Tailwind 3.4 (bukan 4) demi kompatibilitas shadcn/ui yang stabil.
-- ESLint 8, konfigurasi di `package.json` (`eslintConfig`: `next/core-web-vitals` + `next/typescript`) agar cocok dengan `next lint` di Next 15 dan tanpa berkas berawalan titik.
+- ESLint 8 + `.eslintrc.json` agar cocok dengan `next lint` di Next 15.
 - `noUncheckedIndexedAccess` aktif: akses array harus menangani `undefined`.
 - Tahap 1 di-host di GitHub Pages: ekspor statis, tanpa middleware, `localePrefix: "always"` (/id, /en). Bahasa tersimpan lewat URL. Setiap halaman memanggil `setRequestLocale`.
-- Rute dinamis (mis. `/survey/[slug]`) perlu `generateStaticParams` selama masih statis; pindah ke Vercel (atau hosting dengan server) saat backend dibangun.
-- Tanpa berkas berawalan titik di paket zip: tanpa `.gitignore`/`.devcontainer`; `.github/workflows/pages.yml` dibuat manual di GitHub.
-- Tanpa `src/app/layout.tsx` dan `src/app/page.tsx`: `[locale]/layout.tsx` adalah root layout. Pengalihan `/` ke `id/` lewat `public/index.html` (meta refresh). Konsekuensi: `/` bisa 404 saat `npm run dev` (QA I-2).
-- Komponen `<dialog>` native untuk dialog proyek (fokus terjebak, Esc menutup) alih-alih pustaka tambahan.
-- Proyek yang dibuat pengguna di Tahap 1 bersifat lokal: tidak punya halaman detail/builder karena ekspor statis tidak dapat membuat rute baru saat runtime.
-- Data demo berbahasa Indonesia dianggap konten (tidak diterjemahkan); wajib berlabel "Data demo".
-- Zona waktu tanggal belum diset (usulan `Asia/Jakarta` di `docs/proposed-fixes/request.ts.txt`; QA S-2).
+- Rute dinamis (mis. `/survey/[slug]`) perlu `generateStaticParams` selama masih statis; pindah ke Vercel saat backend dibangun.
+- Tanpa berkas berawalan titik di paket: ESLint di `package.json`, tanpa `.gitignore`/`.devcontainer`; `.github/workflows/pages.yml` dibuat manual.
+- Tanpa `src/app/layout.tsx` dan `src/app/page.tsx`: `[locale]/layout.tsx` adalah root layout. Pengalihan `/` ke `/id/` lewat `public/index.html` (meta refresh).
+- (Audit 2026-11-27) Catatan koreksi: konfigurasi ESLint ada di `package.json` (`eslintConfig`), bukan `.eslintrc.json`. Bahasa tersimpan lewat URL (`localePrefix: "always"`), bukan cookie `NEXT_LOCALE`.

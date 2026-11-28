@@ -3,9 +3,9 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { routes } from "@/config/routes";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { QuestionField, SectionHeading } from "./question-field";
 import { buildPagesFor, firstErrorId, getPageProgress, resolveNavigationMode, validatePage, type AnswerError } from "./section-utils";
 import { useSurvey, type AnswerValue } from "./survey-provider";
@@ -36,7 +36,15 @@ export function QuestionFlow() {
     window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   }, [index, reduceMotion]);
 
-  if (!consented || !page) return null;
+  if (!consented) return null;
+  if (!page) {
+    return (
+      <div className="space-y-4">
+        <p className="text-muted-foreground">{t("noQuestions")}</p>
+        <Link href={routes.survey.intro(q.slug)} className={buttonVariants({ variant: "outline" })}>{t("backToStart")}</Link>
+      </div>
+    );
+  }
 
   const progress = getPageProgress(pages.length, index);
   const isLast = index + 1 >= pages.length;

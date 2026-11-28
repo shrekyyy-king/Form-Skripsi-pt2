@@ -1,118 +1,123 @@
-# Laporan QA Tahap 1
+# Laporan QA (Akun-3)
 
-Tanggal audit: 2026-11-27
+Tanggal audit: 2026-11-27. Yang diaudit: seluruh isi `Form-Skripsi-lengkap-terbaru.zip` (100 berkas).
+Aturan peran: kode sumber **tidak diubah**. Perbaikan diusulkan sebagai berkas utuh di `docs/proposed-fixes/` (lihat README di sana).
 
-## Ruang lingkup dan batasan (baca dulu)
+## 1. Ringkasan
 
-- **Cara audit: HANYA MEMBACA kode.** `typecheck`, `lint`, dan `build` TIDAK dijalankan (zip tidak berisi `node_modules`, dan lingkungan audit tanpa jaringan). Tidak ada halaman yang dibuka di peramban. Semua temuan runtime bertanda **[perlu verifikasi]**.
-- **Prasyarat belum terpenuhi.** Prompt QA meminta audit setelah semua hasil paralel digabung dan build GitHub Actions hijau. Snapshot `Form-Skripsi-basis.zip` adalah kondisi **sampai Bagian 7**: tidak ada `docs/status/`, `src/features/music`, `src/features/auth`, `src/lib/auth`, `src/config/music.ts`, `profile-menu.tsx`, rute `/login`, maupun manajemen seksi (`Section`). Berkas `.github/workflows/pages.yml` juga tidak ada di zip (berkas berawalan titik). Jadi laporan ini hanya mencakup 74 berkas yang ada; hasil tugas Seksi dan Musik/Login/Profil **belum diaudit**.
-- Rasio kontras warna dihitung dari token di `globals.css` (rumus WCAG), bukan diukur di peramban.
-- Pemeriksaan otomatis yang saya jalankan (skrip sederhana): kesamaan kunci `messages/id.json` vs `en.json`, kunci yang dipakai kode vs yang ada, impor tidak terpakai, penggunaan `any`, API peramban/cookie/header.
+| Keparahan | Jumlah | Contoh |
+|---|---|---|
+| Tinggi | 2 | jawaban responden hilang saat ganti bahasa (diduga); versi Next.js rentan |
+| Sedang | 8 | ekspor CSV bisa memuat rumus berbahaya; teks galat mode gelap sulit dibaca; soal wajib lolos dengan spasi |
+| Rendah | 12 | label salah di detail proyek; skala grafik; kebersihan kode |
 
-## Ringkasan
+Kabar baik: tidak ada galat tipe, tidak ada peringatan lint, build ekspor statis berhasil (47 halaman), kunci pesan id/en sinkron (223 kunci), dan rumus Cronbach's alpha cocok dengan hitungan independen. Tiga perbaikan penting sudah punya berkas usulan yang diuji.
 
-| Keparahan | Jumlah |
+## 2. Apa yang benar-benar dijalankan, dan apa yang tidak
+
+Dijalankan di lingkungan Akun-3 (BUKAN di GitHub Actions; log GitHub tidak saya terima, jadi status build hijau di GitHub tidak bisa saya pastikan sendiri):
+
+| Pemeriksaan | Hasil |
 |---|---|
-| Tinggi | 0 |
-| Sedang | 6 |
-| Rendah | 10 |
-| Info | 7 |
+| `npm install` (+ `npm audit`) | berhasil; 5 temuan keamanan (lihat Q-02) |
+| `npx tsc --noEmit` | tanpa galat |
+| `npx next lint` | tanpa peringatan/galat |
+| `npx next build` (ekspor statis) | berhasil, 47 halaman. Catatan: `next/font/google` (Inter) diganti stub di salinan uji karena lingkungan ini tidak bisa mengakses Google Fonts. Stub itu tidak ada di berkas serahan |
+| Sinkron pesan id/en | 223 kunci di kedua berkas, tanpa selisih; semua kunci `t("...")` literal ada; placeholder `{...}` sama |
+| Aturan ekspor statis | 19 page/layout memanggil `setRequestLocale`; rute dinamis punya `generateStaticParams`; tidak ada `cookies()/headers()/middleware`; tidak ada `any`/`@ts-ignore` |
+| Logika murni (`docs/qa-scripts/qa-checks.ts`) | 44 pemeriksaan pada kode asli: 36 lolos, 8 gagal (semua gagal = temuan di bawah). Setelah perbaikan usulan: 42 lolos, 2 gagal (temuan yang belum diperbaiki) |
+| Cronbach's alpha data demo | 0,9510395707578807 di TypeScript dan di Python (dihitung terpisah); reverse scoring butir s3 juga cocok |
+| Kontras warna | dihitung dengan rumus WCAG dari token di `globals.css` |
 
-Hasil positif (terverifikasi dengan membaca/skrip):
-- 121 kunci pesan, **id dan en sinkron**, placeholder ICU sama, tidak ada kunci yang dipanggil tapi hilang.
-- Tidak ada `any`, tidak ada impor yang tidak terpakai, tidak ada `localStorage`/`window`/`document` langsung.
-- Semua page/layout memanggil `setRequestLocale`; semua rute dinamis (`survey/[slug]`, `builder/[id]`, `projects/[id]`) punya `generateStaticParams`. Tidak ada middleware, cookies, headers, atau API route: kompatibel ekspor statis.
-- Akses array mematuhi `noUncheckedIndexedAccess` (`q.questions[index]`, `defaultFive[i]` ditangani).
-- Tidak ada teks antarmuka hardcode di komponen (kecuali butir R-8 dan I-5).
+TIDAK dijalankan (tidak ada browser di lingkungan ini): tampilan visual, perilaku di Chrome/Firefox/Safari/mobile, audio, interaksi keyboard dan pembaca layar, unduh CSV di browser. Semua yang bertanda **(diduga)** adalah hasil membaca kode dan perlu dicek lewat `docs/TESTING_CHECKLIST.md`.
 
----
+Satu catatan jujur: dalam skrip uji saya, satu ekspektasi awal (urutan hasil `removeSection`) ternyata salah; kodenya benar sesuai dokumentasi `docs/status/seksi.md`. Ekspektasi itu sudah dikoreksi.
 
-## SEDANG
+## 3. Temuan
 
-### S-1. Berpindah bahasa saat mengisi kuesioner menghapus semua jawaban [perlu verifikasi]
-- Berkas: `src/components/layout/language-switcher.tsx:16`, `src/features/survey/survey-provider.tsx:21-24`, `src/features/survey/question-flow.tsx:20-22`
-- Masalah: `SurveyProvider` memakai `useState` dan berada di bawah layout `[locale]`. Mengganti `locale` lewat `router.replace` kemungkinan me-remount pohon sehingga `consented` kembali `false`; `QuestionFlow` lalu mengalihkan ke halaman awal. Responden kehilangan progres tanpa peringatan.
-- Saran: pindahkan state ke `sessionStorage` (dengan `try/catch`) atau sembunyikan pengalih bahasa selama `index > 0`; minimal beri tahu pengguna. Pada Tahap 2 jawaban sebaiknya disimpan per sesi di server.
+Format: **ID, judul**: berkas:baris, penjelasan, saran. "Perbaikan" menunjuk berkas usulan.
 
-### S-2. Risiko hydration mismatch pada tanggal (zona waktu tidak diset)
-- Berkas: `src/i18n/request.ts:4-8`; dipakai `src/features/projects/project-list.tsx:63`
-- Masalah: `next-intl` tidak diberi `timeZone`. Komponen klien memformat tanggal saat build (zona waktu runner Actions, UTC) lalu saat hydrate memakai zona waktu peramban. `createdAt` demo `...T08:00:00Z` bergeser hari bagi pengguna di UTC-9 atau lebih barat; kemungkinan juga muncul peringatan `ENVIRONMENT_FALLBACK` saat build.
-- Saran: kembalikan `timeZone` tetap dari `getRequestConfig`. Berkas usulan: `docs/proposed-fixes/request.ts.txt`.
+### Tinggi
 
-### S-3. Nilai opsi Likert dan pilihan ganda tidak divalidasi (duplikat/kosong)
-- Berkas: `src/features/builder/question-editor.tsx:66-73, 82`, `src/features/survey/question-input.tsx:30, 47, 58`
-- Masalah: peneliti bisa membuat dua opsi Likert bernilai sama, atau pilihan duplikat/kosong. Akibatnya `key={o.value}` / `key={c}` ganda (peringatan React, centang ikut berpasangan), dan skor ambigu. Baris kosong pada `choices` hanya disaring di pratinjau (`builder-editor.tsx:98`), tidak di data; `<option value="">` bentrok dengan opsi placeholder dropdown.
-- Saran: fungsi murni `validateQuestion(question)` di `builder-utils.ts` (nilai unik, label tidak kosong, `choices` tanpa duplikat), tampilkan galat di editor; saring baris kosong saat menyimpan `choices`.
+**Q-01 Jawaban hilang bila responden mengganti bahasa di tengah pengisian (diduga).**
+`src/components/layout/language-switcher.tsx:16` memakai `router.replace(pathname, { locale })`, dan pengalih ini tampil di header survei (`survey/[slug]/layout.tsx`). Jawaban disimpan di `SurveyProvider` (state React). Pada Next App Router, mengganti nilai segmen dinamis `[locale]` biasanya memasang ulang layout di bawahnya, sehingga state hilang; lalu `question-flow.tsx:31` mengembalikan responden ke halaman pengantar. Akibatnya semua jawaban dan persetujuan hilang. Belum diuji di browser: lihat TESTING_CHECKLIST bagian "Alur responden".
+Saran (pilih satu, perlu keputusan): (a) sembunyikan pengalih bahasa di `/questions` dan `/consent`; (b) simpan jawaban di `sessionStorage` (dengan try/catch) dan pulihkan; (c) tampilkan peringatan sebelum pindah. Tidak saya sertakan kodenya karena menyentuh layout survei dan keputusan UX ada pada Anda.
 
-### S-4. Kolom nilai opsi Likert tidak bisa dikosongkan
-- Berkas: `src/features/builder/question-editor.tsx:68-69`
-- Masalah: `Number("")` bernilai `0`, bukan `NaN`, sehingga menghapus isi kolom langsung mengubahnya jadi `0` dan mengetik "-" atau angka desimal terasa rusak (nilai terkontrol).
-- Saran: simpan teks mentah di state lokal dan konversi saat blur, atau tolak string kosong secara eksplisit.
+**Q-02 Dependensi dengan kerentanan yang diketahui.**
+`package.json:18` `next 15.1.6` ditandai **kritis** oleh `npm audit` (beberapa advisori; sebagian untuk server Next, dev server, dan protokol React flight). Pada Tahap 1 situs hanya berupa berkas statis di GitHub Pages, jadi sebagian besar tidak dapat dieksploitasi di produksi; namun dev server, proses build, dan terutama Tahap 2 (server) terdampak. Juga: `next-intl 3.26.3` (sedang, perbaikan butuh versi mayor 4), `zod 3.24.1` (tinggi, perbaikan butuh zod 4 dan penyesuaian `@hookform/resolvers`), `postcss`/`sharp` (transitif, ikut membaik dengan Next baru).
+Perbaikan: **FIX-04** menaikkan `next` dan `eslint-config-next` ke 15.5.29 (rilis minor, bukan mayor). Sudah diuji di lingkungan ini: tipe, lint, dan build 47 halaman tetap hijau; temuan kritis hilang, sisa 4 (sedang/tinggi, lihat di atas). `next-intl` dan `zod` ke v4 adalah migrasi tersendiri: rencanakan saat awal Tahap 2 bersama uji ulang form.
 
-### S-5. Teks galat (`text-destructive`) gagal kontras AA pada tema gelap
-- Berkas: `src/app/globals.css:35` (`--destructive: 0 62% 55%`); dipakai `question-flow.tsx:69`, `project-form.tsx:29,35`
-- Masalah: hitungan saya: 4,07:1 terhadap background dan 3,77:1 terhadap card (target 4,5:1 untuk teks kecil).
-- Saran: naikkan kecerahan token gelap, mis. `0 70% 65%`, lalu cek ulang. (`globals.css` termasuk berkas config; perubahan perlu persetujuan integrator.)
+### Sedang
 
-### S-6. Item "Ringkasan" di sidebar kemungkinan tidak pernah tampak aktif [perlu verifikasi]
-- Berkas: `src/components/layout/sidebar-nav.tsx:25`
-- Masalah: `pathname === href` dengan `href = "/dashboard"`, sementara `next.config.ts` memakai `trailingSlash: true` sehingga `usePathname()` kemungkinan mengembalikan `/dashboard/`. Jika benar, `aria-current` dan gaya aktif tidak muncul. Item lain memakai `startsWith` sehingga aman.
-- Saran: normalisasi, mis. `pathname.replace(/\/$/, "") === href`. Verifikasi di peramban dulu.
+**Q-03 Ekspor CSV bisa memuat "rumus" (CSV/formula injection).**
+`src/features/data/dataset.ts:27-33`. Jawaban teks responden yang diawali `=`, `+`, `-`, `@` ditulis apa adanya; bila peneliti membuka CSV di Excel/Sheets, sel itu bisa dieksekusi sebagai rumus. Data demo tidak berbahaya, tetapi ini menjadi nyata begitu ada responden sungguhan. Juga: karakter `\r` tidak ikut di-escape (baris 29).
+Perbaikan: **FIX-01** (awalan `'` pada sel teks berbahaya; angka biasa seperti `-3` tidak diubah; `\r` di-escape). Diuji dengan skrip.
 
----
+**Q-04 Teks galat sulit dibaca di mode gelap.**
+`src/app/globals.css:35` (`--destructive` gelap). Kontras teks galat: 4,07:1 di atas background dan 3,77:1 di atas kartu; standar WCAG AA untuk teks kecil: 4,5:1. Mode terang aman (5,8 sampai 6,0).
+Perbaikan: **FIX-03** (`0 72% 66%`, kontras 4,7 sampai 5,7 pada background/kartu/muted).
 
-## RENDAH
+**Q-05 Soal wajib bisa lolos hanya dengan spasi; angka tak hingga diterima.**
+`src/features/survey/section-utils.ts:114-115` dan `:120`. Jawaban `"   "` dianggap terisi; nilai seperti `1e999` lolos validasi angka.
+Perbaikan: **FIX-02** (`trim()` dan `Number.isFinite`).
 
-### R-1. Label kolom "responden" di detail proyek salah
-- `src/app/[locale]/dashboard/projects/[id]/page.tsx:41`: label memakai `tp("title")` ("Proyek penelitian") di atas angka "128 responden". Saran: kunci baru `projectDetail.detailRespondents` (id/en).
+**Q-06 Layar kosong bila kuesioner tidak punya soal.**
+`src/features/survey/question-flow.tsx:39` (`return null`). Responden melihat halaman kosong tanpa penjelasan, padahal brief meminta keadaan kosong ditangani. Saat ini tidak terjadi pada data demo, tetapi akan terjadi pada kuesioner buatan builder di Tahap 2.
+Saran: tampilkan pesan "Kuesioner ini belum memiliki pertanyaan" (butuh kunci pesan baru id/en) dan tombol kembali.
 
-### R-2. Kuesioner tanpa soal menampilkan halaman kosong
-- `src/features/survey/question-flow.tsx:24-25`: `!question` mengembalikan `null`, jadi responden melihat layar kosong; `total = 0` juga membuat lebar progres `NaN%` (baris 51). Saran: tampilkan pesan "kuesioner belum memiliki soal" dan jangan render bilah progres.
+**Q-07 Semua halaman berjudul sama.**
+`src/app/[locale]/layout.tsx:13` hanya mengatur `title: brand.name`. Dalam build, semua halaman memakai `<title>Research Platform</title>`. Pengguna pembaca layar dan tab browser tidak bisa membedakan halaman (WCAG 2.4.2).
+Saran: `title: { default: brand.name, template: "%s | " + brand.name }` di layout dan `generateMetadata` per halaman memakai terjemahan.
 
-### R-3. Soal Likert tanpa `likert` jatuh menjadi input teks
-- `src/features/survey/question-input.tsx:25, 77-78`: `type === "likert"` tanpa konfigurasi jatuh ke `default` (input teks). Builder mencegahnya lewat `applyType`, tetapi data dari Supabase kelak bisa tak konsisten. Saran: tampilkan galat jelas atau validasi di repository.
+**Q-08 Tombol aksi di daftar soal builder tidak punya konteks untuk pembaca layar.**
+`src/features/builder/builder-editor.tsx:87-89` dan `:177`. Setiap baris punya tombol berlabel sama ("Naik", "Turun", "Hapus"). Pembaca layar mengucapkan label yang sama berulang tanpa tahu soal mana. Setelah menghapus soal, fokus juga hilang.
+Saran: label berisi nomor soal, mis. `t("moveUpFor", { number })`; setelah hapus, pindahkan fokus ke baris berikutnya atau ke tombol "Tambah".
 
-### R-4. Aksesibilitas alur responden
-- `question-flow.tsx:50`: `role="progressbar"` tanpa nama (`aria-label`/`aria-labelledby`).
-- `question-flow.tsx:56-69`: fokus tidak dipindah ke soal baru saat "Berikutnya"; pengguna pembaca layar/keyboard tidak diberi tahu soal berganti (hanya `aria-live` pada teks progres). Saran: fokuskan `legend`/`fieldset` (tabIndex -1) setelah transisi.
-- `question-flow.tsx:69`: pesan galat tidak dikaitkan ke input (`aria-describedby`, `aria-invalid`).
-- `[locale]/dashboard/layout.tsx`, `survey/[slug]/layout.tsx`: tidak ada tautan "lewati ke konten".
+**Q-09 Batas kolom isian terlalu tipis (kontras 1,25:1 terang, 1,51:1 gelap).**
+`src/app/globals.css` (`--border`) dan komponen `src/components/ui/input.tsx` (memakai `border`, bukan `--input`). WCAG 1.4.11 menyarankan 3:1 untuk batas kontrol. Ini konsekuensi gaya "border halus" di brief, jadi **keputusan desain**, bukan salah kode.
+Saran: biarkan `--border` halus untuk kartu, tetapi beri kolom isian batas lebih gelap (token `--input` sudah ada tetapi belum dipakai). `components/ui` berstatus beku; perubahan perlu persetujuan Akun-1.
 
-### R-5. `text-primary` pada `bg-primary/10` sedikit di bawah AA (tema terang)
-- `sidebar-nav.tsx:28`, `builder-editor.tsx:112`: hitungan 4,43:1 (target 4,5:1) untuk teks `text-sm` tebal. Saran: gelapkan `--primary` terang sedikit (mis. lightness 37%) atau pakai `text-foreground` pada latar aktif.
+**Q-10 Builder bisa menghasilkan data yang merusak responden dan analisis (menjadi nyata di Tahap 2).**
+- Nilai opsi Likert boleh ganda: `question-editor.tsx:68`; di responden `key={o.value}` ganda (`question-input.tsx:30`), pilihan terlihat terpilih ganda, dan reverse scoring (`scoring.ts:7`) memakai max+min nilai.
+- Pilihan kosong atau ganda: `question-editor.tsx:82` memecah per baris tanpa membersihkan; `question-input.tsx:47,58,70` memakai `key={c}`. Pratinjau sudah membuang yang kosong (`builder-preview.tsx:29`), tetapi responden asli belum.
+Saran: validasi saat menyimpan (nilai unik, pilihan di-trim, tanpa kosong/duplikat) di utilitas murni builder; tambahkan uji.
 
-### R-6. Pergeseran bahasa mengosongkan hasil yang belum dikirim di Pratinjau/Builder
-- Perubahan builder hanya di memori (`builder-editor.tsx:25-32`); berganti bahasa me-remount halaman dan menghapus semuanya. Sudah ditandai demo, tetapi tambahkan peringatan `beforeunload` atau catatan di UI. (Sama akarnya dengan S-1.)
+### Rendah
 
-### R-7. Logika skor `scoreLikert` rapuh pada kasus tepi
-- `src/lib/scoring.ts:4-8`: (a) `options` kosong menghasilkan `-Infinity + Infinity = NaN`; (b) `value` di luar rentang opsi tidak ditolak; (c) `direction` tidak berpengaruh (benar bila nilai menempel pada opsi, tetapi perlu dinyatakan di komentar); (d) belum ada uji unit. Rumus inti `max + min - value` benar untuk skala berurutan. Berkas usulan: `docs/proposed-fixes/scoring.ts.txt`.
+**Q-11 Label salah di detail proyek.** `src/app/[locale]/dashboard/projects/[id]/page.tsx:41` memakai `tp("title")` ("Proyek penelitian") sebagai label di atas "128 responden". Perbaikan: **FIX-05** (kunci baru `projectDetail.detailRespondents`, fragmen pesan id/en disertakan; diuji, label "Responden" muncul di hasil build).
 
-### R-8. Nilai bawaan builder berbahasa Indonesia tertanam di kode
-- `src/features/builder/builder-utils.ts:3, 23`: label Likert 5 titik dan "Opsi 1/Opsi 2" hardcode. Peneliti berbahasa Inggris mendapat label Indonesia. Ini konten bawaan, bukan antarmuka, tetapi sebaiknya diteruskan dari pemanggil yang memakai `messages`.
+**Q-12 Halaman 404 default berbahasa Inggris.** Hasil build `out/404.html` tanpa tema, tanpa pilihan bahasa, tanpa tautan kembali. Saran: `src/app/[locale]/not-found.tsx` untuk `notFound()` di dalam rute berbahasa; URL yang tidak cocok sama sekali tetap dilayani `404.html` GitHub Pages (perlu keputusan bila ingin 404 dwibahasa).
 
-### R-9. `createLikertConfig` memberi nilai tabrakan saat menambah titik pada skala bernilai khusus
-- `builder-utils.ts:12`: titik baru bernilai `i + 1` tanpa memeriksa nilai yang sudah dipakai (mis. skala 0-4 diperbesar). Terkait S-3.
+**Q-13 Batang grafik di Analisis mulai dari 0, bukan dari nilai terendah skala.** `analysis/page.tsx:37` memakai `mean / max`. Pada skala 1 sampai 5, rata-rata 1,0 tampak 20% dan 3,0 tampak 60%. Saran: `(mean - min) / (max - min)` atau beri sumbu/label skala; jelaskan dalam catatan.
 
-### R-10. `brand.logoPath` tidak memperhitungkan `basePath`
-- `src/components/layout/brand-mark.tsx:7`: `<img src="/logo.svg">` di GitHub Pages menunjuk ke akar domain, bukan `/<repo>/logo.svg`. Saat ini `logoPath = null` sehingga belum terlihat. Saran: awali dengan `process.env.NEXT_PUBLIC_BASE_PATH`.
+**Q-14 Dua kasus tepi laten pada hitungan.** (a) `analysis/page.tsx:26` dan `dataset.ts:18` memakai `Number(...)`; `Number("")` bernilai 0 sehingga jawaban Likert kosong akan dihitung sebagai 0 (di dataset sudah ditutup FIX-01; di analisis belum). Pada alur sekarang jawaban Likert kosong berarti kunci tidak ada, jadi belum terjadi. (b) `scoring.ts:7`: bila daftar opsi kosong, hasil `NaN`. Builder selalu membuat minimal 2 opsi, jadi belum terjadi. Saran: jaga di kedua tempat.
 
----
+**Q-15 Unduh CSV (belum diuji di browser).** `export-csv-button.tsx:17-18`: `revokeObjectURL` dipanggil segera setelah `click()` dan tautan tidak ditempel ke dokumen. Beberapa browser (Safari, Firefox lama) bisa membatalkan unduhan. Saran: `document.body.append(a)` lalu `setTimeout(() => URL.revokeObjectURL(url), 0)`.
 
-## INFO
+**Q-16 Likert: label bawaan campuran dan teks bawaan berbahasa Indonesia.** `builder-utils.ts:12`: menaikkan 3 ke 5 titik menghasilkan label "1 | 2 | 3 | Setuju | Sangat setuju". `builder-utils.ts:3,23`: "Opsi 1/2" dan label 5 titik berbahasa Indonesia muncul walau antarmuka berbahasa Inggris (ini konten peneliti, jadi boleh, tetapi sebaiknya diputuskan sadar).
 
-- **I-1. Dokumen tidak konsisten:** `docs/DECISIONS.md` menyebut `.eslintrc.json` sekaligus ESLint di `package.json`; `docs/ARCHITECTURE.md` masih menulis prefix `as-needed` dan cookie `NEXT_LOCALE`, padahal kini `always` tanpa cookie; README menyebut `Form-Skripsi` sedangkan repo `Form-Skripsi-pt2`. Sudah diperbaiki di berkas dokumen yang menyertai laporan ini.
-- **I-2. `npm run dev`:** tanpa `src/app/page.tsx`, alamat `/` kemungkinan 404 saat pengembangan (pengalihan hanya lewat `public/index.html`). Gunakan `/id/`. [perlu verifikasi]
-- **I-3. Kode belum terpakai (wajar untuk Tahap 1):** `scoreLikert` (belum dipanggil di mana pun), `brand.tagline`, `routes.home`, `routes.login`, kunci `common.demoData`, dependensi `recharts` (belum diimpor).
-- **I-4. `Button` tanpa `type="button"` bawaan** (`src/components/ui/button.tsx`, beku). Aman sekarang karena tombol dalam form diberi tipe eksplisit; berisiko bila kelak ada tombol di dalam `<form>`.
-- **I-5. Data demo berbahasa Indonesia tampil di antarmuka Inggris** (`fixtures.ts:12-14`, judul proyek, kuesioner). Dapat diterima (data demo/konten peneliti), tetapi pengguna `/en` akan melihat campuran.
-- **I-6. `next/font/google` (Inter)** mengunduh font saat build: build lokal tanpa internet gagal. Di GitHub Actions aman.
-- **I-7. Tidak ada `not-found` bergaya** untuk URL yang tidak ada (404 bawaan Next, tanpa tema/bahasa).
+**Q-17 Hapus soal/seksi tanpa konfirmasi atau urungkan.** `builder-editor.tsx:61-77`. Masih wajar untuk mode demo; wajib dipertimbangkan begitu data tersimpan.
 
----
+**Q-18 Halaman selesai tidak memeriksa jawaban wajib.** `complete-view.tsx:19-22` hanya memeriksa persetujuan. Dengan tombol maju/mundur browser di dalam aplikasi, halaman selesai bisa dicapai tanpa menjawab. Tidak berdampak di Tahap 1 (tanpa penyimpanan); di Tahap 2 validasi harus dilakukan juga di server.
 
-## Hal yang belum dapat dinilai
-- Hasil `npm run typecheck`, `npm run lint`, `npm run build` (tidak dijalankan).
-- Tampilan sebenarnya (responsif, tema gelap, transisi), perilaku `<dialog>`, `has-[:checked]` pada peramban lama.
-- Seluruh fitur Seksi, Musik, Login, Profil (tidak ada di snapshot).
+**Q-19 Angka data demo tidak konsisten.** `fixtures.ts:5` menyebut 128 responden untuk proyek p1, sedangkan hanya ada 12 respons demo (`fixtures-responses.ts`); total di Ringkasan 340. Semua berlabel "Data demo", jadi hanya kosmetik.
 
-Daftar uji manual: `docs/TESTING_CHECKLIST.md`.
+**Q-20 Aksi cepat dashboard minim.** `dashboard/page.tsx:68` hanya satu tombol; brief menyebut "tombol aksi cepat" (mis. buat proyek, buka builder, lihat data). Tumpang tindih dengan tugas Akun-2 (kepatuhan brief).
+
+**Q-21 Kebersihan.** `recharts` ada di `package.json:24` tetapi tidak dipakai (grafik memakai CSS); `src/components/layout/placeholder-page.tsx` tidak dipakai lagi; kunci pesan `common.demoData`, `common.profileDemo`, `common.comingSoon` tidak terpakai (`common` beku: keputusan Akun-1); `components.json` sisa konfigurasi shadcn CLI yang tidak dipakai; `consent-view.tsx:31` memakai `key={p}` (paragraf identik menghasilkan key ganda). Tidak berbahaya.
+
+**Q-22 Tidak ada `package-lock.json`.** Build di GitHub memakai `npm install` tanpa kunci, sehingga dependensi turunan bisa berubah antar-build. Saran: hasilkan `package-lock.json` di lingkungan yang punya npm dan sertakan; baru setelah itu ubah workflow ke `npm ci`. (Bila workflow memakai `cache: npm`, kunci ini malah wajib ada.)
+
+## 4. Yang sudah baik (ringkas)
+
+- Logika murni (skor, statistik, seksi, validasi, mutasi builder) terpisah dari komponen dan lolos uji kasus tepi, kecuali yang tercantum di atas.
+- Akses data konsisten lewat `src/lib/data`; autentikasi lewat antarmuka `AuthClient`; nama produk dan rute dari `brand.ts` dan `routes.ts`.
+- Aksesibilitas dasar baik: label pada kolom, `role="alert"` pada galat, fokus dipindah ke soal bermasalah, `aria-expanded`/Escape pada menu dan panel, `useReducedMotion` dipakai pada animasi.
+- Tidak ada penyimpanan kredensial; musik tidak autoplay; data demo berlabel.
+
+## 5. Urutan perbaikan yang disarankan
+
+1. Uji Q-01 di browser; putuskan solusi.
+2. Terapkan FIX-04 (naik Next) lalu FIX-01, 02, 03, 05; build di GitHub; uji `docs/TESTING_CHECKLIST.md`.
+3. Q-06, Q-07, Q-08 (kecil, tanpa dampak arsitektur).
+4. Sisanya bersamaan dengan Tahap 2 (Q-10, Q-17, Q-18 menjadi wajib).

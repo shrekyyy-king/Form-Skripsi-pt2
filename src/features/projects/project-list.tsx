@@ -40,7 +40,7 @@ export function ProjectList({ projects }: { projects: Project[] }) {
       </div>
 
       {filtered.length === 0 ? (
-        <Card><CardContent className="py-8 text-center text-muted-foreground">{t("empty")}</CardContent></Card>
+        <Card><CardContent className="py-8 text-center text-muted-foreground">{items.length === 0 ? t("emptyAll") : t("empty")}</CardContent></Card>
       ) : (
         <ul className="grid gap-4 sm:grid-cols-2">
           {filtered.map((p) => (

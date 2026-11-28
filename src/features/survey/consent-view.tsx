@@ -32,6 +32,7 @@ export function ConsentView() {
         <p>{t("voluntary")}</p>
         <p>{t("privacy")}</p>
       </CardContent></Card>
+      <p className="rounded-md bg-muted px-3 py-2 text-xs text-muted-foreground">{t("demoNote")}</p>
       <label className="flex cursor-pointer items-start gap-3 text-sm">
         <input type="checkbox" className="mt-0.5 accent-primary" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
         <span>{t("agreeLabel")}</span>
